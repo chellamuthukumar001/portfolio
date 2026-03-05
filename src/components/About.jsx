@@ -1,0 +1,244 @@
+
+import { motion } from "framer-motion";
+import { FaLaptopCode, FaMicrochip, FaNetworkWired, FaRocket, FaCode } from "react-icons/fa";
+import { Tilt } from "react-tilt";
+import profileImg from "../assets/photo.jpg";
+
+const About = () => {
+    return (
+        <section id="about" className="relative w-full min-h-screen py-20 bg-transparent flex items-center">
+            {/* Deep dark overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black z-0" />
+
+            {/* Subtle directional glow — very dim */}
+            <div className="absolute top-1/3 left-[-10%] w-[500px] h-[500px] bg-red-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 right-[-5%] w-[400px] h-[400px] bg-red-600/[0.04] rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+
+                {/* Section header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-16 text-center md:text-left"
+                >
+                    {/* Label */}
+                    <p className="text-xs font-mono text-white/25 uppercase tracking-[0.3em] mb-4">// 01 — About</p>
+
+                    <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6 tracking-wide">
+                        About <span
+                            style={{
+                                WebkitTextStroke: "1px rgba(220,38,38,0.4)",
+                                color: "transparent",
+                            }}
+                        >Me</span>
+                    </h2>
+
+                    <p className="text-white/50 text-lg md:text-xl max-w-3xl leading-relaxed font-light">
+                        I am a passionate{" "}
+                        <span className="text-red-400 font-semibold border-b border-red-500/40">CSE Student</span>
+                        {" "}and{" "}
+                        <span className="text-red-400 font-semibold border-b border-red-500/40">Full Stack Developer</span>
+                        {" "}with a keen eye for{" "}
+                        <span className="text-white/80 font-medium">UI/UX Design</span>.
+                        {" "}I specialize in building modern web applications and exploring{" "}
+                        <span className="text-white/80 font-medium">AI Automation</span>
+                        {" "}to solve complex real-world problems.
+                    </p>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+                    {/* ── Profile Photo Card ── */}
+                    <div className="md:col-span-5 lg:col-span-4 h-full">
+                        <Tilt options={{ max: 15, scale: 1.02, speed: 400 }} className="h-full">
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="relative h-full min-h-[420px] rounded-3xl overflow-hidden group border border-white/10 hover:border-white/30 transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.8)]"
+                            >
+                                {/* Dark gradient over photo */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent z-10 opacity-90" />
+
+                                <img
+                                    src={profileImg}
+                                    onError={(e) => {
+                                        e.target.src = "https://images.unsplash.com/photo-1556157382-97eda2d622ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                                        e.target.onerror = null;
+                                    }}
+                                    alt="Chella Muthu Kumar"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale"
+                                />
+
+                                {/* Name overlay */}
+                                <div className="absolute bottom-8 left-8 z-20">
+                                    <div className="w-10 h-[2px] bg-red-500 mb-3" />
+                                    <h3 className="text-2xl font-orbitron font-bold text-white mb-1">
+                                        Chella Muthu Kumar
+                                    </h3>
+                                    <p className="text-white/40 font-mono text-xs tracking-widest uppercase">
+                                        Developer · Designer
+                                    </p>
+                                </div>
+
+                                {/* Corner badge */}
+                                <div className="absolute top-6 right-6 z-20 border border-white/20 rounded-lg px-3 py-1.5 bg-black/60 backdrop-blur-sm">
+                                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">CSE · 2023</span>
+                                </div>
+                            </motion.div>
+                        </Tilt>
+                    </div>
+
+                    {/* ── Bento Grid ── */}
+                    <div className="md:col-span-7 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        {/* Card 1 — Web Dev (full width, prominent) */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="md:col-span-2"
+                        >
+                            <Tilt options={{ max: 8, scale: 1.01 }}>
+                                <div className="h-full p-7 rounded-3xl border border-white/10 bg-white/[0.04]
+                                    hover:bg-white/[0.07] hover:border-white/25 transition-all duration-300
+                                    group relative overflow-hidden">
+                                    {/* Top-left accent bar — RED */}
+                                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-500/70 via-red-600/20 to-transparent rounded-l-3xl" />
+                                    {/* Faint top-right corner highlight */}
+                                    <div className="absolute -top-6 -right-6 w-28 h-28 bg-red-500/[0.04] rounded-full blur-2xl group-hover:bg-red-500/[0.08] transition-all duration-500" />
+
+                                    <div className="flex items-start gap-5 relative z-10">
+                                        <div className="shrink-0 w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 group-hover:border-white/20 transition-all">
+                                            <FaLaptopCode className="text-2xl text-white" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-orbitron font-bold text-white mb-2">Web Development</h3>
+                                            <p className="text-white/40 leading-relaxed text-sm">
+                                                Crafting responsive, high-performance web applications using React, Tailwind CSS,
+                                                and Modern JavaScript. Focused on clean code and intuitive experiences that feel
+                                                genuinely <span className="text-white/70 italic">premium</span>.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-5 flex gap-2 relative z-10">
+                                        {["React", "Node.js", "TypeScript", "CSS"].map(t => (
+                                            <span key={t} className="text-[10px] font-mono text-white/30 border border-white/10 px-2 py-1 rounded-lg">
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </Tilt>
+                        </motion.div>
+
+                        {/* Card 2 — AI Automation */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <Tilt options={{ max: 10, scale: 1.01 }} className="h-full">
+                                <div className="h-full p-6 rounded-3xl border border-white/8 bg-black
+                                    hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300
+                                    group relative overflow-hidden">
+                                    {/* Dark inner shadow for depth */}
+                                    <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] rounded-3xl pointer-events-none" />
+
+                                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <FaMicrochip className="text-lg text-white/70" />
+                                    </div>
+                                    <h3 className="text-lg font-orbitron font-bold text-white mb-2">AI Automation</h3>
+                                    <p className="text-white/35 text-sm leading-relaxed">
+                                        Leveraging AI tools to build intelligent workflows and automate complex tasks at scale.
+                                    </p>
+                                    {/* Bottom right subtle label */}
+                                    <p className="absolute bottom-4 right-5 text-[10px] font-mono text-white/15 uppercase tracking-widest">
+                                        LLM · Agents
+                                    </p>
+                                </div>
+                            </Tilt>
+                        </motion.div>
+
+                        {/* Card 3 — UI/UX */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <Tilt options={{ max: 10, scale: 1.01 }} className="h-full">
+                                <div className="h-full p-6 rounded-3xl border border-white/8 bg-white/[0.02]
+                                    hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300
+                                    group relative overflow-hidden">
+                                    {/* Dotted texture hint */}
+                                    <div
+                                        className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-3xl"
+                                        style={{
+                                            backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+                                            backgroundSize: "16px 16px",
+                                        }}
+                                    />
+
+                                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <FaNetworkWired className="text-lg text-white/70" />
+                                    </div>
+                                    <h3 className="text-lg font-orbitron font-bold text-white mb-2">UI/UX Design</h3>
+                                    <p className="text-white/35 text-sm leading-relaxed">
+                                        Designing beautiful, user-centric interfaces with a focus on usability and visual hierarchy.
+                                    </p>
+                                    <p className="absolute bottom-4 right-5 text-[10px] font-mono text-white/15 uppercase tracking-widest">
+                                        Figma · Motion
+                                    </p>
+                                </div>
+                            </Tilt>
+                        </motion.div>
+
+                        {/* Card 4 — Learner banner (full width, distinct dark style) */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.4 }}
+                            className="md:col-span-2"
+                        >
+                            <Tilt options={{ max: 6, scale: 1.01 }}>
+                                <div className="w-full p-6 rounded-3xl border border-white/8
+                                    bg-gradient-to-r from-white/[0.07] via-white/[0.04] to-transparent
+                                    hover:border-white/20 transition-all duration-300
+                                    flex items-center justify-between group relative overflow-hidden">
+
+                                    {/* Horizontal rule accent */}
+                                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                                    <div>
+                                        <p className="text-[10px] font-mono text-white/20 uppercase tracking-[0.2em] mb-2">// mindset</p>
+                                        <h3 className="text-xl font-orbitron font-bold text-white mb-1">Passionate Learner</h3>
+                                        <p className="text-white/35 text-sm">
+                                            Always exploring new tech stacks and optimizing workflows.
+                                        </p>
+                                    </div>
+
+                                    <div className="shrink-0 w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center
+                                        group-hover:bg-red-600 group-hover:border-red-500 group-hover:scale-110
+                                        transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.08)] ml-6">
+                                        <FaRocket className="text-xl text-red-400 group-hover:text-white transition-colors" />
+                                    </div>
+                                </div>
+                            </Tilt>
+                        </motion.div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default About;

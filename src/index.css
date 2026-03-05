@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-grotesk: "Space Grotesk", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-sora: "Sora", sans-serif;
+
+  /* Red-Black Theme */
+  --color-indigo-50: #fafafa;
+  --color-indigo-100: #f5f5f5;
+  --color-indigo-200: #e5e5e5;
+  --color-indigo-300: #d4d4d4;
+  --color-indigo-400: #a3a3a3;
+  --color-indigo-500: #737373;
+  --color-indigo-600: #525252;
+  --color-indigo-700: #404040;
+  --color-indigo-800: #262626;
+  --color-indigo-900: #171717;
+  --color-indigo-950: #0a0a0a;
+
+  --color-violet-50: #fff1f2;
+  --color-violet-400: #f87171;
+  --color-violet-500: #ef4444;
+  --color-violet-600: #dc2626;
+
+  --color-blue-400: #f87171;
+  --color-blue-500: #ef4444;
+
+  --color-purple-500: #dc2626;
+  --color-purple-600: #b91c1c;
+
+  --color-slate-100: #f5f5f5;
+  --color-slate-200: #e5e5e5;
+  --color-slate-300: #d4d4d4;
+  --color-slate-400: #a3a3a3;
+  --color-slate-500: #737373;
+  --color-slate-600: #525252;
+  --color-slate-700: #404040;
+  --color-slate-800: #262626;
+  --color-slate-900: #0a0a0a;
+
+  /* Custom Theme Constants */
+  --color-bg-dark: #000000;
+  --color-bg-card: #0d0000;
+  --color-primary: #ef4444;
+  --color-accent: #dc2626;
+  --color-secondary: #1a0000;
+
+  --background-image-gradient-primary: linear-gradient(to right, #ef4444, #dc2626, #991b1b);
+  --shadow-glow-primary: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+:root {
+  --bg-color: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --accent: #ef4444;
+  --accent-dim: #dc2626;
+  --accent-glow: rgba(239, 68, 68, 0.25);
+}
+
+body {
+  @apply font-orbitron overflow-x-hidden;
+  background-color: #000000 !important;
+  color: white;
+}
+
+/* ── LOCK BACKGROUND BLACK EVERYWHERE ── */
+html,
+#root,
+main {
+  background-color: #000000 !important;
+}
+
+/* Remove content-visibility that was interfering */
+section {
+  background-color: inherit;
+}
+
+/* Promote animated backgrounds to their own GPU layer */
+.absolute.inset-0 {
+  transform: translateZ(0);
+}
+
+
+/* Reduce expensive backdrop-filter cost */
+.glass {
+  @apply bg-white/8 backdrop-blur-sm border border-white/10 shadow-lg;
+}
+
+.glass-card {
+  @apply bg-white/8 backdrop-blur-sm border border-white/10 shadow-2xl;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-400 to-neutral-600;
+}
+
+.gradient-bg {
+  @apply bg-gradient-to-r from-white/10 via-neutral-500/10 to-neutral-800/10;
+}
+
+.timeline-dot {
+  @apply absolute hidden sm:block w-4 h-4 bg-white rounded-full border-4 border-black left-[-9px];
+}
+
+/* 3D Transform and Perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+/* Tilt Card Styles */
+.tilt-card {
+  @apply transform-3d transition-transform duration-300;
+}
+
+/* Custom Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* Page Transition Effects */
+.page-enter {
+  @apply opacity-0 transform translate-y-8;
+}
+
+.page-enter-active {
+  @apply opacity-100 transform translate-y-0 transition-all duration-600 ease-out;
+}
+
+.page-exit {
+  @apply opacity-100 transform translate-y-0;
+}
+
+.page-exit-active {
+  @apply opacity-0 transform -translate-y-8 transition-all duration-400 ease-in;
+}
+
+/* Glassmorphism Enhanced */
+.glass-card {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl;
+}
+
+/* Glow Effects */
+.glow-sm {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.glow-md {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.glow-lg {
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+}
+
+/* Scroll Enhancements */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #525252;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #737373;
+}
+
+/* Landing Page Gradient Animation */
+.gradient-shift-bg {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  color: white;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 rgba(255, 255, 255, 0.6);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 rgba(200, 200, 200, 0.4);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip: rect(30px, 9999px, 10px, 0);
+  }
+
+  20% {
+    clip: rect(80px, 9999px, 90px, 0);
+  }
+
+  40% {
+    clip: rect(10px, 9999px, 50px, 0);
+  }
+
+  60% {
+    clip: rect(40px, 9999px, 20px, 0);
+  }
+
+  80% {
+    clip: rect(90px, 9999px, 60px, 0);
+  }
+
+  100% {
+    clip: rect(5px, 9999px, 80px, 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip: rect(60px, 9999px, 80px, 0);
+  }
+
+  20% {
+    clip: rect(30px, 9999px, 10px, 0);
+  }
+
+  40% {
+    clip: rect(90px, 9999px, 70px, 0);
+  }
+
+  60% {
+    clip: rect(10px, 9999px, 40px, 0);
+  }
+
+  80% {
+    clip: rect(70px, 9999px, 20px, 0);
+  }
+
+  100% {
+    clip: rect(20px, 9999px, 50px, 0);
+  }
+}

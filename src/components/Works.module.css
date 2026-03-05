@@ -1,0 +1,143 @@
+.worksIntro {
+    margin-top: 1rem;
+    color: #a3a3a3;
+    font-size: 1.0625rem;
+    max-width: 48rem;
+    line-height: 1.8;
+}
+
+.projectsContainer {
+    margin-top: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    padding-bottom: 2rem;
+}
+
+/* FLIP CARD STYLES + TILT */
+
+.cardTilt {
+    /* For react-tilt wrapper */
+    width: 320px;
+    /* remove static height to allow content to flow or keep strict for consistent look */
+}
+
+.flipCard {
+    width: 100%;
+    /* inherit from tilt */
+    height: 380px;
+    perspective: 1000px;
+    /* Essential for 3D flip */
+    cursor: pointer;
+}
+
+.flipCardInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Remove hover flip here if we want manual click, but hover is requested */
+.flipCard:hover .flipCardInner {
+    transform: rotateY(180deg);
+}
+
+.flipCardFront,
+.flipCardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.flipCardFront {
+    background: #0a0a0a;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.imagePlaceholder {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.cardInfoFront {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a3a3a3;
+    font-size: 0.8rem;
+}
+
+.flipCardBack {
+    background: #111111;
+    color: white;
+    transform: rotateY(180deg);
+    padding: 1.5rem;
+    justify-content: space-between;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.projectName {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.githubBtn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.githubBtn:hover {
+    background: #333;
+    border-color: white;
+}
+
+.projectDesc {
+    font-size: 0.875rem;
+    color: #a3a3a3;
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.tagsContainer {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}

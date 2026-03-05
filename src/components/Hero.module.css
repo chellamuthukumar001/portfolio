@@ -1,0 +1,170 @@
+.heroSection {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paddingX {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .paddingX {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+
+.heroContainer {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+    z-index: 10;
+}
+
+.markerContainer,
+.heroHeadText,
+.heroSubText {
+    pointer-events: auto;
+}
+
+.markerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.25rem;
+}
+
+.dot {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background-color: #bd00ff;
+    /* Electric Purple */
+}
+
+.line {
+    width: 0.25rem;
+    height: 10rem;
+    /* h-40 */
+    background: linear-gradient(180deg, #bd00ff 0%, transparent 100%);
+    /* Purple gradient */
+    margin-bottom: -1px;
+    /* Align seamlessly */
+}
+
+@media (min-width: 640px) {
+    .line {
+        height: 20rem;
+        /* h-80 */
+    }
+}
+
+.heroHeadText {
+    font-weight: 900;
+    color: #fff;
+    font-size: 2.5rem;
+    /* text-[40px] */
+    line-height: normal;
+    /* text-[50px] */
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+    .heroHeadText {
+        font-size: 3.75rem;
+        /* text-[60px] */
+        line-height: 1.2;
+        /* text-[98px] */
+    }
+}
+
+@media (min-width: 1024px) {
+    .heroHeadText {
+        font-size: 5rem;
+        /* text-[80px] */
+    }
+}
+
+.heroName {
+    color: #00f3ff;
+    /* Neon Blue/Cyan */
+}
+
+.heroSubText {
+    color: #dfd9ff;
+    font-weight: 500;
+    font-size: 1rem;
+    /* text-[16px] */
+    margin-top: 0.5rem;
+    line-height: 1.5;
+    /* text-[26px] */
+}
+
+@media (min-width: 640px) {
+    .heroSubText {
+        font-size: 1.625rem;
+        /* text-[26px] */
+        line-height: 2rem;
+        /* text-[40px] */
+    }
+}
+
+.breakMobile {
+    display: block;
+}
+
+@media (min-width: 640px) {
+    .breakMobile {
+        display: none;
+    }
+}
+
+.scrollIconContainer {
+    position: absolute;
+    bottom: 2rem;
+    /* bottom-32 -> bottom-8 works */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+@media (min-width: 640px) {
+    .scrollIconContainer {
+        bottom: 2.5rem;
+        /* bottom-10 */
+    }
+}
+
+.scrollIconBorder {
+    width: 35px;
+    height: 64px;
+    border-radius: 3rem;
+    border: 4px solid #aaa6c3;
+    /* secondary color */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.scrollIconDot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background-color: #aaa6c3;
+    margin-bottom: 0.25rem;
+}
