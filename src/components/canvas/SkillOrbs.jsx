@@ -1,55 +1,18 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Float, MeshDistortMaterial, OrbitControls } from '@react-three/drei';
+import { Sphere, OrbitControls } from '@react-three/drei';
 
-const SkillOrb = ({ position, color, delay = 0 }) => {
-    const meshRef = useRef();
-
-    useFrame((state) => {
-        if (meshRef.current) {
-            const time = state.clock.elapsedTime + delay;
-            meshRef.current.position.y = Math.sin(time * 0.5) * 0.3;
-            meshRef.current.rotation.y += 0.01;
-        }
-    });
-
+const SkillOrb = ({ position, color }) => {
     return (
-        <Float speed={3} rotationIntensity={0.3} floatIntensity={0.5}>
-            <group ref={meshRef} position={position}>
-                <Sphere args={[0.3, 16, 16]}>
-                    <MeshDistortMaterial
-                        color={color}
-                        emissive={color}
-                        emissiveIntensity={0.8}
-                        distort={0.2}
-                        speed={2}
-                        roughness={0.4}
-                        metalness={0.8}
-                    />
-                </Sphere>
-            </group>
-        </Float>
-    );
-};
-
-const OrbitalRing = ({ radius, orbs }) => {
-    return (
-        <group>
-            {orbs.map((orb, index) => {
-                const angle = (index / orbs.length) * Math.PI * 2;
-                const x = Math.cos(angle) * radius;
-                const z = Math.sin(angle) * radius;
-                return (
-                    <SkillOrb
-                        key={index}
-                        position={[x, 0, z]}
-                        color={orb.color}
-                        name={orb.name}
-                        delay={index * 0.2}
-                    />
-                );
-            })}
-        </group>
+        <Sphere args={[0.28, 8, 8]} position={position}>
+            <meshStandardMaterial
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.6}
+                roughness={0.5}
+                metalness={0.6}
+            />
+        </Sphere>
     );
 };
 
@@ -63,36 +26,41 @@ const SkillOrbsScene = () => {
     });
 
     const innerOrbs = [
-        { name: 'React', color: '#00f3ff' },
-        { name: 'Flutter', color: '#bd00ff' },
-        { name: 'IoT', color: '#ffffff' },
-        { name: 'Embedded', color: '#00f3ff' },
+        { color: '#00f3ff' }, { color: '#bd00ff' },
+        { color: '#ffffff' }, { color: '#00f3ff' },
     ];
-
     const outerOrbs = [
-        { name: 'JS', color: '#bd00ff' },
-        { name: 'Python', color: '#00f3ff' },
-        { name: 'C++', color: '#ffffff' },
-        { name: 'Node', color: '#bd00ff' },
-        { name: 'Firebase', color: '#00f3ff' },
-        { name: 'MongoDB', color: '#ffffff' },
+        { color: '#bd00ff' }, { color: '#00f3ff' },
+        { color: '#ffffff' }, { color: '#bd00ff' },
+        { color: '#00f3ff' }, { color: '#ffffff' },
     ];
 
     return (
         <group ref={groupRef}>
-            <OrbitalRing radius={2} orbs={innerOrbs} />
-            <OrbitalRing radius={3.5} orbs={outerOrbs} />
+            {innerOrbs.map((orb, i) => {
+                const angle = (i / innerOrbs.length) * Math.PI * 2;
+                return (
+                    <SkillOrb
+                        key={'i' + i}
+                        position={[Math.cos(angle) * 2, 0, Math.sin(angle) * 2]}
+                        color={orb.color}
+                    />
+                );
+            })}
+            {outerOrbs.map((orb, i) => {
+                const angle = (i / outerOrbs.length) * Math.PI * 2;
+                return (
+                    <SkillOrb
+                        key={'o' + i}
+                        position={[Math.cos(angle) * 3.5, 0, Math.sin(angle) * 3.5]}
+                        color={orb.color}
+                    />
+                );
+            })}
 
-            {/* Central core */}
-            <Sphere args={[0.5, 32, 32]}>
-                <MeshDistortMaterial
-                    color="#ffffff"
-                    emissive="#ffffff"
-                    emissiveIntensity={1}
-                    distort={0.4}
-                    speed={3}
-                    wireframe
-                />
+            {/* Central core — low poly */}
+            <Sphere args={[0.5, 8, 8]}>
+                <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.8} wireframe />
             </Sphere>
         </group>
     );
@@ -101,11 +69,11 @@ const SkillOrbsScene = () => {
 const SkillOrbs = () => {
     return (
         <div className="w-full h-full absolute inset-0 z-[-1] pointer-events-none">
-            <Canvas camera={{ position: [0, 2, 6], fov: 50 }}>
+            <Canvas frameloop="always" camera={{ position: [0, 2, 6], fov: 50 }} dpr={[1, 1.5]}>
                 <React.Suspense fallback={null}>
                     <ambientLight intensity={0.5} />
                     <pointLight position={[10, 10, 10]} intensity={1} color="#00f3ff" />
-                    <pointLight position={[-10, -10, -10]} intensity={1} color="#bd00ff" />
+                    <pointLight position={[-10, -10, -10]} intensity={0.6} color="#bd00ff" />
 
                     <SkillOrbsScene />
 
@@ -122,3 +90,4 @@ const SkillOrbs = () => {
 };
 
 export default SkillOrbs;
+

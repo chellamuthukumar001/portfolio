@@ -1,6 +1,10 @@
 
 import { FaReact, FaNodeJs, FaPython, FaJava, FaAndroid, FaGithub, FaLinkedin, FaTwitter, FaRobot } from "react-icons/fa";
 import { SiTailwindcss, SiTypescript, SiMongodb, SiFirebase, SiArduino, SiFlutter, SiEspressif, SiSupabase, SiKotlin, SiN8N, SiZapier, SiFigma, SiFramer } from "react-icons/si";
+import rforce_ai_project from "../assets/rforce_ai_project.png";
+import mindmate_project from "../assets/mindmate_project.png";
+import off_grid_project from "../assets/off_grid_project.png";
+import lora_monitoring_project from "../assets/lora_monitoring_project.png";
 
 export const navLinks = [
   { id: "home", title: "Home" },
@@ -46,28 +50,28 @@ export const projects = [
     description: "An advanced AI-powered coordination platform for managing volunteer squads and emergency response nexus in real-time.",
     tech: ["React", "Supabase", "n8n", "AI Agents"],
     github: "https://github.com/chellamuthukumar001",
-    image: "/src/assets/rforce_ai_project.png",
+    image: rforce_ai_project,
   },
   {
     title: "Mindmate",
     description: "A premium AI companion designed for mental wellness, featuring conversational intelligence and wellness tracking.",
     tech: ["Flutter", "Kotlin", "FastAPI", "OpenAI"],
     github: "https://github.com/chellamuthukumar001",
-    image: "/src/assets/mindmate_project.png",
+    image: mindmate_project,
   },
   {
     title: "Off-Grid Communication App",
     description: "A robust mobile application enabling communication without internet using LoRa technology.",
     tech: ["Flutter", "LoRa", "ESP32", "Dart"],
     github: "https://github.com/chellamuthukumar001",
-    image: "/src/assets/off_grid_project.png",
+    image: off_grid_project,
   },
   {
     title: "LoRa Monitoring System",
     description: "Long-range environmental monitoring dashboard visualizing sensor data.",
     tech: ["React", "LoRaWAN", "Chart.js", "InfluxDB"],
     github: "https://github.com/chellamuthukumar001",
-    image: "/src/assets/lora_monitoring_project.png",
+    image: lora_monitoring_project,
   },
 ];
 
@@ -181,6 +185,6 @@ export const certifications = [
 
 export const socialLinks = [
   { name: "GitHub", icon: FaGithub, link: "https://github.com/chellamuthukumar001" },
-  { name: "LinkedIn", icon: FaLinkedin, link: "https://www.linkedin.com/in/chellamuthukumar-kumar-4ab4373a0/" },
+  { name: "LinkedIn", icon: FaLinkedin, link: "https://www.linkedin.com/in/chellamuthu-kumar-4ab4373a0" },
   { name: "Twitter", icon: FaTwitter, link: "https://twitter.com" },
 ];
