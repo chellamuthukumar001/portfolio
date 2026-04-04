@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { skills } from "../constants";
 
@@ -75,87 +75,82 @@ const levelLabel = (pct) => {
     return "Beginner";
 };
 
-const SkillCard = ({ skill, index, isActive }) => {
+const SkillCard = memo(function SkillCard({ skill, index, isActive }) {
     const [hovered, setHovered] = useState(false);
     const pct = proficiencyMap[skill.name] ?? 70;
 
     return (
         <motion.div
             key={skill.name}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             className="group relative cursor-pointer"
         >
             <div
-                className={`relative bg-[#0a0a0a] border rounded-2xl p-6 overflow-hidden transition-all duration-400
+                className={`relative bg-[#0a0a0a] border rounded-2xl p-5 md:p-6 overflow-hidden transition-all duration-300
                     ${hovered
-                        ? "border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.06)] bg-[#111]"
-                        : "border-white/8 hover:border-white/20"
+                        ? "border-red-500/30 shadow-[0_0_25px_rgba(220,38,38,0.1)] bg-[#0d0d0d]"
+                        : "border-white/8 hover:border-white/15"
                     }`}
             >
-                {/* Top corner accent */}
-                <div className={`absolute top-0 right-0 w-16 h-16 border-t border-r rounded-br-none rounded-2xl transition-all duration-500
-                    ${hovered ? "border-white/40" : "border-white/5"}`} />
+                {/* Corner accent */}
+                <div className={`absolute top-0 right-0 w-12 h-12 border-t border-r rounded-br-none rounded-2xl transition-colors duration-300
+                    ${hovered ? "border-red-500/30" : "border-white/5"}`} />
 
-                {/* Icon row */}
-                <div className="flex items-center gap-4 mb-5">
+                {/* Icon and info */}
+                <div className="flex items-center gap-3 md:gap-4 mb-4">
                     <div
-                        className={`text-4xl transition-all duration-300 filter ${hovered ? "grayscale-0 scale-110" : "grayscale brightness-200"}`}
-                        style={{ filter: hovered ? "none" : "grayscale(1) brightness(2)" }}
+                        className={`text-3xl md:text-4xl transition-all duration-300 ${hovered ? "scale-110" : "opacity-60"}`}
+                        style={{ color: hovered ? skill.color : "#888888" }}
                     >
-                        <skill.icon style={{ color: hovered ? skill.color : "#ffffff" }} />
+                        <skill.icon />
                     </div>
-                    <div>
-                        <h4 className="text-lg font-orbitron font-bold text-white tracking-wide">
+                    <div className="flex-1">
+                        <h4 className="text-base md:text-lg font-orbitron font-bold text-white tracking-wide">
                             {skill.name}
                         </h4>
-                        <span className={`text-xs font-mono uppercase tracking-widest transition-colors duration-300 ${hovered ? "text-white/70" : "text-white/30"}`}>
+                        <span className={`text-[10px] md:text-xs font-mono uppercase tracking-wider transition-colors duration-300 ${hovered ? "text-red-400/80" : "text-white/30"}`}>
                             {levelLabel(pct)}
                         </span>
                     </div>
-                    <div className={`ml-auto text-2xl font-orbitron font-extrabold transition-colors duration-300 ${hovered ? "text-white" : "text-white/10"}`}>
+                    <div className={`text-xl md:text-2xl font-orbitron font-extrabold transition-colors duration-300 ${hovered ? "text-red-400" : "text-white/15"}`}>
                         {pct}%
                     </div>
                 </div>
 
-                {/* Proficiency bar */}
-                <div className="relative w-full h-1 bg-white/10 rounded-full overflow-hidden border border-white/5">
+                {/* Progress bar */}
+                <div className="relative w-full h-1 bg-white/5 rounded-full overflow-hidden">
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: isActive ? `${pct}%` : 0 }}
-                        transition={{ duration: 1.2, delay: index * 0.1 + 0.3, ease: "easeOut" }}
-                        className="h-full rounded-full relative"
+                        transition={{ duration: 0.8, delay: index * 0.08, ease: "easeOut" }}
+                        className="h-full rounded-full"
                         style={{
                             background: hovered
-                                ? `linear-gradient(90deg, #ef4444 0%, rgba(185,28,28,0.6) 100%)`
-                                : `linear-gradient(90deg, #7f1d1d 0%, #ef4444 100%)`,
-                            boxShadow: hovered ? "0 0 12px rgba(220,38,38,0.5)" : "none",
-                            transition: "background 0.3s, box-shadow 0.3s",
+                                ? 'linear-gradient(90deg, #ef4444, #dc2626)'
+                                : 'linear-gradient(90deg, #7f1d1d, #dc2626)',
+                            boxShadow: hovered ? '0 0 8px rgba(220,38,38,0.4)' : 'none',
                         }}
                     />
                 </div>
-
-                {/* Scan line reveal on hover */}
-                <motion.div
-                    initial={false}
-                    animate={{ x: hovered ? "100%" : "-100%" }}
-                    transition={{ duration: 0.7 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/5 to-transparent pointer-events-none"
-                />
             </div>
         </motion.div>
     );
-};
+});
 
-const Skills = () => {
+const Skills = memo(function Skills() {
     const [activeCategory, setActiveCategory] = useState("frontend");
 
     const current = skillCategories.find((c) => c.id === activeCategory);
     const categorySkills = skills.filter((s) => current.skills.includes(s.name));
+
+    const handleCategoryChange = useCallback((id) => {
+        setActiveCategory(id);
+    }, []);
 
     return (
         <section id="skills" className="relative w-full min-h-screen py-24 bg-transparent overflow-hidden">
@@ -212,23 +207,23 @@ const Skills = () => {
 
                 {/* Category Tabs */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex flex-wrap justify-center gap-3 mb-12"
+                    transition={{ duration: 0.5, delay: 0.15 }}
+                    className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12"
                 >
                     {skillCategories.map((cat) => (
                         <button
                             key={cat.id}
-                            onClick={() => setActiveCategory(cat.id)}
-                            className={`relative px-6 py-3 rounded-full font-orbitron text-sm tracking-wider transition-all duration-300 outline-none border
+                            onClick={() => handleCategoryChange(cat.id)}
+                            className={`relative px-4 md:px-6 py-2.5 md:py-3 rounded-full font-orbitron text-xs md:text-sm tracking-wider transition-all duration-300 outline-none border
                                 ${activeCategory === cat.id
-                                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.3)]"
-                                    : "bg-transparent text-white/50 border-white/10 hover:border-red-500/40 hover:text-white/80"
+                                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.25)]"
+                                    : "bg-transparent text-white/50 border-white/10 hover:border-red-500/30 hover:text-white/70"
                                 }`}
                         >
-                            <span className="mr-2 font-mono text-[10px] opacity-50">{cat.label}</span>
+                            <span className="mr-1.5 md:mr-2 font-mono text-[9px] md:text-[10px] opacity-50">{cat.label}</span>
                             {cat.title}
                         </button>
                     ))}

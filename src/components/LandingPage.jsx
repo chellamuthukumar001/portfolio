@@ -73,7 +73,7 @@ function WarpTransition({ onDone }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MASTER CANVAS — all GPU effects in one canvas (no React re-renders)
+// MASTER CANVAS — optimized for performance (reduced particles, FPS cap)
 // ─────────────────────────────────────────────────────────────────────────────
 const MasterCanvas = ({ burstRef }) => {
     const canvasRef = useRef(null);
@@ -81,10 +81,19 @@ const MasterCanvas = ({ burstRef }) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { alpha: true });
+
         let W = (canvas.width = window.innerWidth);
         let H = (canvas.height = window.innerHeight);
-        const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
+
+        let resizeTimeout;
+        const onResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }, 100);
+        };
         window.addEventListener("resize", onResize);
 
         // Mouse tracked via ref — NO state updates
@@ -92,113 +101,147 @@ const MasterCanvas = ({ burstRef }) => {
         const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
         window.addEventListener("mousemove", onMove, { passive: true });
 
-        // Particles — fewer, simpler
-        const NUM = 55;
+        // Reduced particles for better performance
+        const NUM = 30;
         const particles = Array.from({ length: NUM }, () => ({
             x: Math.random() * W, y: Math.random() * H,
-            vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-            r: Math.random() * 1.4 + 0.4,
-            red: Math.random() < 0.38,
-            baseAlpha: Math.random() * 0.25 + 0.06,
-            alpha: 0.1,
+            vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+            r: Math.random() * 1.2 + 0.5,
+            red: Math.random() < 0.4,
+            baseAlpha: Math.random() * 0.2 + 0.08,
         }));
 
         // Burst particles
         const bursts = [];
         burstRef.current = (x, y) => {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 12; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 2 + Math.random() * 4;
+                const speed = 2 + Math.random() * 3;
                 bursts.push({
                     x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                    life: 1, r: Math.random() * 2 + 0.6, red: Math.random() > 0.3,
+                    life: 1, r: Math.random() * 1.5 + 0.5, red: Math.random() > 0.3,
                 });
             }
         };
 
-        const GRID = 65;
-        const ATTRACT = 160;
-        const CONNECT = 100;
+        const GRID = 70;
+        const ATTRACT = 140;
+        const CONNECT = 90;
         let tick = 0;
         let raf;
+        let lastTime = 0;
+        const targetFPS = 30;
+        const frameInterval = 1000 / targetFPS;
 
-        const draw = () => {
+        const draw = (currentTime) => {
+            raf = requestAnimationFrame(draw);
+
+            // Throttle to target FPS
+            const delta = currentTime - lastTime;
+            if (delta < frameInterval) return;
+            lastTime = currentTime - (delta % frameInterval);
+
             ctx.clearRect(0, 0, W, H);
 
-            // ── Grid ───────────────────────────────────────────────────────
+            // Grid - batched drawing
             ctx.lineWidth = 0.5;
-            const offset = (tick * 0.1) % GRID;
-            ctx.strokeStyle = "rgba(220,38,38,0.025)";
-            for (let x = offset; x < W; x += GRID) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-            for (let y = offset; y < H; y += GRID) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+            ctx.strokeStyle = "rgba(220,38,38,0.02)";
+            ctx.beginPath();
+            const offset = (tick * 0.08) % GRID;
+            for (let x = offset; x < W; x += GRID) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, H);
+            }
+            for (let y = offset; y < H; y += GRID) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(W, y);
+            }
+            ctx.stroke();
 
-            // ── Scan lines ──────────────────────────────────────────────────
-            const sg = ctx.createLinearGradient(0, mouse.y - 40, 0, mouse.y + 40);
-            sg.addColorStop(0, "rgba(220,38,38,0)"); sg.addColorStop(0.5, "rgba(220,38,38,0.08)"); sg.addColorStop(1, "rgba(220,38,38,0)");
-            ctx.fillStyle = sg; ctx.fillRect(0, mouse.y - 40, W, 80);
-            const vg = ctx.createLinearGradient(mouse.x - 30, 0, mouse.x + 30, 0);
-            vg.addColorStop(0, "rgba(220,38,38,0)"); vg.addColorStop(0.5, "rgba(220,38,38,0.06)"); vg.addColorStop(1, "rgba(220,38,38,0)");
-            ctx.fillStyle = vg; ctx.fillRect(mouse.x - 30, 0, 60, H);
-
-            // ── Particles ───────────────────────────────────────────────────
+            // Particles - simplified
+            const ATTRACT_SQ = ATTRACT * ATTRACT;
             particles.forEach(p => {
                 const dx = mouse.x - p.x, dy = mouse.y - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < ATTRACT && dist > 0.5) {
-                    const f = ((ATTRACT - dist) / ATTRACT) * 0.035;
-                    p.vx += (dx / dist) * f; p.vy += (dy / dist) * f;
+                const distSq = dx * dx + dy * dy;
+                const dist = Math.sqrt(distSq);
+
+                if (distSq < ATTRACT_SQ && dist > 0.5) {
+                    const f = ((ATTRACT - dist) / ATTRACT) * 0.025;
+                    p.vx += (dx / dist) * f;
+                    p.vy += (dy / dist) * f;
                 }
-                p.vx *= 0.97; p.vy *= 0.97;
-                p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
+                p.vx *= 0.97;
+                p.vy *= 0.97;
+                p.x = (p.x + p.vx + W) % W;
+                p.y = (p.y + p.vy + H) % H;
+
                 const prox = dist < ATTRACT ? (1 - dist / ATTRACT) : 0;
-                p.alpha = p.baseAlpha + prox * 0.45;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (1 + prox * 0.8), 0, Math.PI * 2);
-                ctx.fillStyle = p.red ? `rgba(220,38,38,${p.alpha})` : `rgba(255,255,255,${p.alpha * 0.45})`;
+                const alpha = p.baseAlpha + prox * 0.35;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r * (1 + prox * 0.5), 0, Math.PI * 2);
+                ctx.fillStyle = p.red ? `rgba(220,38,38,${alpha})` : `rgba(255,255,255,${alpha * 0.4})`;
                 ctx.fill();
             });
 
-            // ── Connections (limit to nearby pairs only) ───────────────────
-            ctx.lineWidth = 0.4;
+            // Connections - limited
+            ctx.lineWidth = 0.35;
+            const CONNECT_SQ = CONNECT * CONNECT;
             for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < Math.min(i + 12, particles.length); j++) {
-                    const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < CONNECT) {
-                        ctx.strokeStyle = `rgba(220,38,38,${0.06 * (1 - d / CONNECT)})`;
-                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                for (let j = i + 1; j < Math.min(i + 6, particles.length); j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dSq = dx * dx + dy * dy;
+                    if (dSq < CONNECT_SQ) {
+                        const d = Math.sqrt(dSq);
+                        ctx.strokeStyle = `rgba(220,38,38,${0.05 * (1 - d / CONNECT)})`;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
                     }
                 }
             }
 
-            // ── Burst particles ─────────────────────────────────────────────
+            // Burst particles
             for (let i = bursts.length - 1; i >= 0; i--) {
                 const b = bursts[i];
-                b.x += b.vx; b.y += b.vy; b.vx *= 0.92; b.vy *= 0.92; b.life -= 0.03;
+                b.x += b.vx;
+                b.y += b.vy;
+                b.vx *= 0.93;
+                b.vy *= 0.93;
+                b.life -= 0.04;
                 if (b.life <= 0) { bursts.splice(i, 1); continue; }
-                ctx.beginPath(); ctx.arc(b.x, b.y, b.r * b.life, 0, Math.PI * 2);
-                ctx.fillStyle = b.red ? `rgba(220,38,38,${b.life})` : `rgba(255,255,255,${b.life * 0.7})`;
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.r * b.life, 0, Math.PI * 2);
+                ctx.fillStyle = b.red ? `rgba(220,38,38,${b.life})` : `rgba(255,255,255,${b.life * 0.6})`;
                 ctx.fill();
             }
 
-            // ── Cursor dot ─────────────────────────────────────────────────
-            ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(220,38,38,0.85)"; ctx.fill();
-            ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 14, 0, Math.PI * 2);
-            ctx.strokeStyle = "rgba(220,38,38,0.35)"; ctx.lineWidth = 1; ctx.stroke();
+            // Cursor - simplified
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(220,38,38,0.8)";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, 10, 0, Math.PI * 2);
+            ctx.strokeStyle = "rgba(220,38,38,0.3)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
 
             tick++;
-            raf = requestAnimationFrame(draw);
         };
 
-        draw();
+        raf = requestAnimationFrame(draw);
         return () => {
             cancelAnimationFrame(raf);
+            clearTimeout(resizeTimeout);
             window.removeEventListener("resize", onResize);
             window.removeEventListener("mousemove", onMove);
         };
     }, [burstRef]);
 
-    return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" style={{ cursor: "none" }} />;
+    return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none will-change-transform" style={{ cursor: "none" }} />;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

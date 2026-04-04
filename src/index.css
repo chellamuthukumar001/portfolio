@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-grotesk: "Space Grotesk", sans-serif;
   --font-inter: "Inter", sans-serif;
   --font-orbitron: "Orbitron", sans-serif;
-  --font-sora: "Sora", sans-serif;
+  --font-sans: "Inter", sans-serif;
 
   /* Red-Black Theme */
   --color-indigo-50: #fafafa;
@@ -333,89 +333,90 @@ section {
   }
 }
 
-/* ────── MOBILE RESPONSIVENESS OPTIMIZATIONS ────── */
+/* ────── PERFORMANCE OPTIMIZATIONS ────── */
 
-/* Reduce animation complexity on mobile for better performance */
+/* GPU acceleration for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+/* Reduce paint areas */
+.contain-paint {
+  contain: paint;
+}
+
+/* ────── MOBILE RESPONSIVENESS ────── */
+
 @media (max-width: 768px) {
-  /* Disable parallax on mobile */
-  [style*="transform: translateZ"] {
-    transform: none !important;
-  }
-
-  /* Reduce animation durations on mobile */
+  /* Simplified animations on mobile */
   .animate-float {
-    animation: float 8s ease-in-out infinite;
+    animation: float 10s ease-in-out infinite;
   }
 
   .animate-fade-in {
-    animation: fadeIn 1.2s ease-in;
+    animation: fadeIn 0.6s ease-out;
   }
 
-  /* Touch-friendly interaction states */
+  /* Touch optimizations */
   button, a {
-    -webkit-tap-highlight-color: rgba(220, 38, 38, 0.2);
+    -webkit-tap-highlight-color: rgba(220, 38, 38, 0.15);
     touch-action: manipulation;
   }
 
-  /* Better text rendering on mobile */
+  /* Better text rendering */
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
   }
 
-  /* Optimize scrollbar on mobile */
+  /* Hide scrollbar on mobile */
   ::-webkit-scrollbar {
     display: none;
   }
 
-  /* Disable hover effects on mobile touch devices */
+  /* Touch device hover fix */
   @media (hover: none) {
     button:hover,
     a:hover {
-      background-color: transparent;
       transform: none;
     }
-
-    .group:hover > * {
-      opacity: 1;
-      color: inherit;
-    }
   }
 
-  /* Optimized spacing for mobile */
-  .px-6 {
-    @apply px-4;
-  }
-
-  .py-24 {
-    @apply py-16;
-  }
-
-  .gap-8 {
-    @apply gap-6;
-  }
-
-  /* Improve readability on small screens */
+  /* Readable headings */
   h1, h2, h3 {
-    line-height: 1.2;
+    line-height: 1.15;
+    text-wrap: balance;
   }
 
-  /* Better touch targets (min 44x44px) */
+  /* Minimum touch targets */
   button {
     min-height: 44px;
-    min-width: 44px;
   }
 
-  /* Reduce shadow complexity on mobile */
+  /* Reduced shadows for performance */
   .shadow-lg,
   .shadow-2xl {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   }
 
-  /* Optimize backdrop filters */
+  /* Lighter backdrop blur */
   .backdrop-blur-sm,
-  .backdrop-blur-md {
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* ────── REDUCED MOTION PREFERENCE ────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

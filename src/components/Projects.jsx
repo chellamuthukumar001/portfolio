@@ -1,56 +1,35 @@
 import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, memo, useCallback } from "react";
 import { projects } from "../constants";
-import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaTerminal, FaPlay } from "react-icons/fa";
-import Card3D from "./Card3D";
-import { SectionTransition, ZoomOnScroll } from "./SectionTransition";
+import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaCode } from "react-icons/fa";
 
-// Distinct dark red gradient backgrounds per project
-const cardBgs = [
-    "from-red-900/10 via-red-950/5 to-transparent",
-    "from-red-800/8 via-red-900/3 to-transparent",
-    "from-red-700/6 via-red-800/2 to-transparent",
-    "from-red-900/12 via-transparent to-transparent",
-];
-
-const Projects = () => {
+const Projects = memo(function Projects() {
     const [hoveredProject, setHoveredProject] = useState(null);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth < 768);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    const handleHover = useCallback((index) => {
+        if (!isMobile) setHoveredProject(index);
+    }, [isMobile]);
+
+    const handleLeave = useCallback(() => {
+        if (!isMobile) setHoveredProject(null);
+    }, [isMobile]);
+
     return (
-        <section id="projects" className="relative w-full min-h-screen py-24 bg-transparent overflow-hidden">
-            {/* Cinematic gradient backdrop */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
-
-            {/* Animated gradient glow */}
-            <motion.div
-                className="absolute inset-0 z-[1] pointer-events-none"
-                animate={{
-                    backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
-                style={{
-                    background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,38,38,0.05) 0%, transparent 70%)`,
-                    backgroundSize: '200% 200%',
-                }}
-            />
-
-            {/* Subtle diagonal red lines texture */}
+        <section id="projects" className="relative w-full min-h-screen py-16 md:py-24 bg-transparent overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30 z-0" />
             <div
-                className="absolute inset-0 z-0 pointer-events-none opacity-[0.015]"
+                className="absolute inset-0 z-0 pointer-events-none"
                 style={{
-                    backgroundImage: "repeating-linear-gradient(45deg, #ef4444 0, #ef4444 1px, transparent 0, transparent 50%)",
-                    backgroundSize: "24px 24px",
+                    background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(220,38,38,0.04) 0%, transparent 70%)',
                 }}
             />
 
@@ -81,191 +60,145 @@ const Projects = () => {
                     </p>
                 </motion.div>
 
-                <ZoomOnScroll intensity={0.15}>
-                    <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+                <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-80px" }}
-                            transition={{ duration: 0.6, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                            onMouseEnter={() => !isMobile && setHoveredProject(index)}
-                            onMouseLeave={() => !isMobile && setHoveredProject(null)}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            onMouseEnter={() => handleHover(index)}
+                            onMouseLeave={handleLeave}
                             onClick={() => isMobile && setHoveredProject(hoveredProject === index ? null : index)}
+                            className="group"
                         >
-                            <Card3D delay={index * 0.1}>
-                                <div className="group relative rounded-2xl border border-red-500/10 bg-[#080808]
-                                    hover:border-red-500/30 transition-all duration-400
-                                    shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_40px_rgba(220,38,38,0.2)] overflow-hidden"
-                                >
-                                    {/* Cinematic edge glow on hover */}
-                                    {hoveredProject === index && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            className="absolute inset-0 z-[5] pointer-events-none rounded-2xl"
-                                            style={{
-                                                background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.1), transparent)',
-                                            }}
+                            <div className={`relative rounded-2xl border bg-[#080808] overflow-hidden transition-all duration-300
+                                ${hoveredProject === index 
+                                    ? "border-red-500/30 shadow-[0_8px_30px_rgba(220,38,38,0.15)]" 
+                                    : "border-white/8 hover:border-white/15 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"}`}
+                            >
+                                {/* Project Visual */}
+                                <div className="relative h-48 md:h-56 overflow-hidden bg-gradient-to-br from-red-900/10 to-transparent">
+                                    {/* Background Image */}
+                                    {project.image && (
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-25 transition-opacity duration-300"
+                                            loading="lazy"
+                                            onError={(e) => e.target.style.display = 'none'}
                                         />
                                     )}
 
-                                    {/* Project Visual */}
-                                    <div className={`relative h-56 md:h-64 overflow-hidden bg-gradient-to-br ${cardBgs[index % cardBgs.length]}`}>
-
-                                        {/* Background Image */}
-                                        {project.image && (
-                                            <div className="absolute inset-0 z-0">
-                                                <img
-                                                    src={project.image}
-                                                    alt={project.title}
-                                                    className="w-full h-full object-cover opacity-50 group-hover:opacity-30 transition-opacity duration-500"
-                                                    onError={(e) => e.target.style.display = 'none'}
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/20 to-transparent" />
-                                            </div>
-                                        )}
-
-                                        {/* Large faded index number */}
-                                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10">
-                                            <span className="text-[140px] font-orbitron font-black text-red-600/[0.08] leading-none">
-                                                {String(index + 1).padStart(2, "0")}
-                                            </span>
-                                        </div>
-
-                                        {/* Project Icon block */}
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
-                                            <div className="w-16 h-16 rounded-2xl border border-red-500/20 bg-red-500/5 flex items-center justify-center shadow-lg">
-                                                <FaTerminal className="text-2xl text-red-400/50" />
-                                            </div>
-                                            <span className="text-red-400/20 text-xs font-mono uppercase tracking-widest font-bold">
-                                                {project.tech?.[0] ?? "Project"}
-                                            </span>
-                                        </div>
-
-                                        {/* Bottom gradient */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent" />
-
-                                        {/* Cinematic hover overlay */}
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: hoveredProject === index ? 1 : 0 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="absolute inset-0 bg-gradient-to-br from-red-950/70 via-black/60 to-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100
-                                            transition-all duration-300 flex flex-col items-center justify-center gap-4 z-20"
-                                        >
-                                            {/* Play button effect */}
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: hoveredProject === index ? 1 : 0 }}
-                                                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                                                className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center
-                                                    backdrop-blur-sm shadow-[0_0_40px_rgba(220,38,38,0.3)]"
-                                            >
-                                                <FaPlay className="text-white/60 text-6xl ml-1" size={24} />
-                                            </motion.div>
-
-                                            {/* Action buttons */}
-                                            <motion.div
-                                                initial={{ y: 20, opacity: 0 }}
-                                                animate={{ y: hoveredProject === index ? 0 : 20, opacity: hoveredProject === index ? 1 : 0 }}
-                                                transition={{ duration: 0.3, delay: 0.1 }}
-                                                className="flex items-center gap-3"
-                                            >
-                                                <motion.a
-                                                    whileHover={{ scale: 1.08 }}
-                                                    whileTap={{ scale: 0.95 }}
-                                                    href={project.github}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="px-6 py-2.5 bg-red-600 text-white text-sm font-bold rounded-full flex items-center gap-2 shadow-lg hover:bg-red-500 transition-colors"
-                                                >
-                                                    <FaGithub /> Code
-                                                </motion.a>
-                                                <motion.a
-                                                    whileHover={{ scale: 1.08 }}
-                                                    whileTap={{ scale: 0.95 }}
-                                                    href={project.link || project.github}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="px-6 py-2.5 border border-white/30 text-white text-sm font-medium rounded-full flex items-center gap-2 backdrop-blur-sm hover:border-white/50 transition-colors"
-                                                >
-                                                    <FaExternalLinkAlt size={12} /> Demo
-                                                </motion.a>
-                                            </motion.div>
-                                        </motion.div>
+                                    {/* Index number */}
+                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <span className="text-[100px] md:text-[120px] font-orbitron font-black text-red-600/[0.06] leading-none">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
                                     </div>
 
-                                    {/* Project Info */}
-                                    <div className="p-6">
-                                        <h3 className="text-xl md:text-2xl font-grotesk font-bold text-white mb-2 group-hover:text-white/80 transition-colors">
-                                            {project.title}
-                                        </h3>
-                                        <p className="text-white/35 leading-relaxed mb-5 text-sm">
-                                            {project.description}
-                                        </p>
-
-                                        {/* Tech Stack */}
-                                        <div className="mb-5">
-                                            <div className="flex flex-wrap gap-2">
-                                                {project.tech.map((tech, i) => (
-                                                    <span
-                                                        key={i}
-                                                        className="px-3 py-1 border border-red-500/10 rounded-lg text-xs text-red-400/50
-                                                            hover:border-red-500/30 hover:text-red-400 transition-all font-mono bg-red-500/[0.02]"
-                                                    >
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                            </div>
+                                    {/* Icon */}
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+                                        <div className="w-14 h-14 rounded-xl border border-red-500/20 bg-red-500/5 flex items-center justify-center">
+                                            <FaCode className="text-xl text-red-400/50" />
                                         </div>
+                                        <span className="text-red-400/30 text-[10px] font-mono uppercase tracking-widest">
+                                            {project.tech?.[0] ?? "Project"}
+                                        </span>
+                                    </div>
 
-                                        {/* CTA */}
-                                        <motion.a
-                                            whileHover={{ x: 4 }}
-                                            href={project.github}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="inline-flex items-center gap-2 text-sm text-red-500/40
-                                                hover:text-red-500 transition-colors group/link font-mono uppercase tracking-widest font-bold"
-                                        >
-                                            View Details
-                                            <FaArrowRight className="text-xs group-hover/link:translate-x-1 transition-transform" />
-                                        </motion.a>
+                                    {/* Bottom gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent" />
+
+                                    {/* Hover overlay */}
+                                    <div className={`absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center gap-4 z-20 transition-opacity duration-300
+                                        ${hoveredProject === index ? 'opacity-100' : 'opacity-0'}`}>
+                                        <div className="flex items-center gap-3">
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-sm font-bold rounded-full flex items-center gap-2 transition-colors"
+                                            >
+                                                <FaGithub /> Code
+                                            </a>
+                                            <a
+                                                href={project.link || project.github}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="px-5 py-2.5 border border-white/30 hover:border-white/50 text-white text-sm font-medium rounded-full flex items-center gap-2 transition-colors"
+                                            >
+                                                <FaExternalLinkAlt size={11} /> Demo
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </Card3D>
+
+                                {/* Project Info */}
+                                <div className="p-5 md:p-6">
+                                    <h3 className="text-lg md:text-xl font-grotesk font-bold text-white mb-2 group-hover:text-red-400/90 transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-white/35 leading-relaxed mb-4 text-sm line-clamp-2">
+                                        {project.description}
+                                    </p>
+
+                                    {/* Tech Stack */}
+                                    <div className="flex flex-wrap gap-1.5 mb-4">
+                                        {project.tech.slice(0, 4).map((tech, i) => (
+                                            <span
+                                                key={i}
+                                                className="px-2.5 py-1 border border-red-500/10 rounded-md text-[10px] text-red-400/50 font-mono bg-red-500/[0.02]"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                        {project.tech.length > 4 && (
+                                            <span className="px-2 py-1 text-[10px] text-white/30 font-mono">
+                                                +{project.tech.length - 4}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* CTA */}
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center gap-2 text-xs text-red-500/50 hover:text-red-400 transition-colors font-mono uppercase tracking-wider font-bold group/link"
+                                    >
+                                        View Details
+                                        <FaArrowRight className="text-[10px] group-hover/link:translate-x-1 transition-transform" />
+                                    </a>
+                                </div>
+                            </div>
                         </motion.div>
                     ))}
-                    </div>
-                </ZoomOnScroll>
+                </div>
 
                 {/* Bottom CTA */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-16 text-center"
+                    className="mt-12 md:mt-16 text-center"
                 >
-                    <p className="text-red-500/25 text-sm mb-6 font-mono">// More projects on GitHub</p>
-                    <motion.a
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
+                    <p className="text-red-500/25 text-xs md:text-sm mb-5 font-mono">// More projects on GitHub</p>
+                    <a
                         href="https://github.com/chellamuthukumar001"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white font-bold rounded-full
-                            shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transition-all"
+                        className="inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-full
+                            shadow-[0_0_25px_rgba(220,38,38,0.25)] hover:shadow-[0_0_35px_rgba(220,38,38,0.4)] transition-all duration-300"
                     >
-                        <FaGithub size={18} />
+                        <FaGithub size={16} />
                         View All on GitHub
-                    </motion.a>
+                    </a>
                 </motion.div>
             </div>
         </section>
     );
-};
+});
 
 export default Projects;
