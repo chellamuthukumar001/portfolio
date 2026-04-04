@@ -113,12 +113,15 @@ function Section({ id, onEnter, children }) {
 function SiteBackground({ activeSection }) {
     return (
         <>
-            {/* Base color layer — BELOW canvas (z-[-10]) */}
-            <div
+            {/* Base color layer — BELOW canvas (z-[-10]) with smooth morphing */}
+            <motion.div
                 className="fixed inset-0 z-[-10] pointer-events-none"
-                style={{
+                animate={{
                     backgroundColor: SECTION_BG[activeSection]?.color ?? '#000000',
-                    transition: 'background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+                transition={{
+                    duration: 1.2,
+                    ease: [0.25, 0.46, 0.45, 0.94], // smooth cubic bezier
                 }}
             />
 
@@ -137,11 +140,14 @@ function SiteBackground({ activeSection }) {
                 )}
             </AnimatePresence>
 
-            {/* Radial glow layer — unique per section */}
+            {/* Radial glow layer — unique per section with smooth morphing */}
             <motion.div
                 className="fixed inset-0 z-[-1] pointer-events-none"
                 animate={{ background: GLOWS[activeSection] ?? 'none' }}
-                transition={{ duration: 1, ease: 'easeInOut' }}
+                transition={{
+                    duration: 1.4,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                }}
             />
         </>
     );
@@ -177,16 +183,25 @@ function SectionDots({ activeSection }) {
                             {SECTION_BG[id]?.label}
                         </span>
 
-                        {/* Dot / pill */}
-                        <div
-                            className={`rounded-full transition-all duration-300 ${
+                        {/* Dot / pill with cinematic glow */}
+                        <motion.div
+                            className={`rounded-full ${
                                 isActive
                                     ? 'w-6 h-2 bg-red-500'
                                     : 'w-1.5 h-1.5 bg-white/15 group-hover:bg-red-500/40 group-hover:scale-125'
                             }`}
-                            style={isActive ? {
-                                boxShadow: '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
+                            animate={isActive ? {
+                                boxShadow: [
+                                    '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
+                                    '0 0 15px rgba(220,38,38,1), 0 0 30px rgba(220,38,38,0.6)',
+                                    '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
+                                ]
                             } : {}}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: 'easeInOut'
+                            }}
                         />
                     </button>
                 );

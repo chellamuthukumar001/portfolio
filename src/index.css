@@ -332,3 +332,90 @@ section {
     clip: rect(20px, 9999px, 50px, 0);
   }
 }
+
+/* ────── MOBILE RESPONSIVENESS OPTIMIZATIONS ────── */
+
+/* Reduce animation complexity on mobile for better performance */
+@media (max-width: 768px) {
+  /* Disable parallax on mobile */
+  [style*="transform: translateZ"] {
+    transform: none !important;
+  }
+
+  /* Reduce animation durations on mobile */
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1.2s ease-in;
+  }
+
+  /* Touch-friendly interaction states */
+  button, a {
+    -webkit-tap-highlight-color: rgba(220, 38, 38, 0.2);
+    touch-action: manipulation;
+  }
+
+  /* Better text rendering on mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Optimize scrollbar on mobile */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Disable hover effects on mobile touch devices */
+  @media (hover: none) {
+    button:hover,
+    a:hover {
+      background-color: transparent;
+      transform: none;
+    }
+
+    .group:hover > * {
+      opacity: 1;
+      color: inherit;
+    }
+  }
+
+  /* Optimized spacing for mobile */
+  .px-6 {
+    @apply px-4;
+  }
+
+  .py-24 {
+    @apply py-16;
+  }
+
+  .gap-8 {
+    @apply gap-6;
+  }
+
+  /* Improve readability on small screens */
+  h1, h2, h3 {
+    line-height: 1.2;
+  }
+
+  /* Better touch targets (min 44x44px) */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce shadow complexity on mobile */
+  .shadow-lg,
+  .shadow-2xl {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Optimize backdrop filters */
+  .backdrop-blur-sm,
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+}

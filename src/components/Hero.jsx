@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { heroData, socialLinks } from "../constants";
 import { FaArrowRight, FaLinkedin, FaGithub } from "react-icons/fa";
 import { HiOutlineArrowDown } from "react-icons/hi";
+import { ParallaxBackground } from "./ParallaxBackground";
 
 const ROLES = ["React Developer", "IoT & Embedded Engineer", "Flutter Specialist", "Full Stack Dev"];
 
@@ -42,7 +43,8 @@ function Typewriter() {
 
 const Hero = ({ onReset }) => {
     return (
-        <section id="home" className="relative w-full min-h-screen flex flex-col overflow-hidden">
+        <ParallaxBackground intensity={25}>
+            <section id="home" className="relative w-full min-h-screen flex flex-col overflow-hidden">
 
             {/* ── Rich background: radial glow at center ── */}
             <div
@@ -261,7 +263,8 @@ const Hero = ({ onReset }) => {
                 </motion.div>
                 <span className="text-white/15 text-[9px] font-mono tracking-[0.4em] uppercase">scroll</span>
             </motion.div>
-        </section>
+            </section>
+        </ParallaxBackground>
     );
 };
 
