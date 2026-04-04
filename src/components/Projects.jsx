@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { projects } from "../constants";
-import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaTerminal } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaTerminal, FaPlay } from "react-icons/fa";
 import Card3D from "./Card3D";
+import { SectionTransition, ZoomOnScroll } from "./SectionTransition";
 
 // Distinct dark red gradient backgrounds per project
 const cardBgs = [
@@ -12,9 +14,36 @@ const cardBgs = [
 ];
 
 const Projects = () => {
+    const [hoveredProject, setHoveredProject] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <section id="projects" className="relative w-full min-h-screen py-24 bg-transparent overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 z-0" />
+            {/* Cinematic gradient backdrop */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
+
+            {/* Animated gradient glow */}
+            <motion.div
+                className="absolute inset-0 z-[1] pointer-events-none"
+                animate={{
+                    backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                }}
+                transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+                style={{
+                    background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,38,38,0.05) 0%, transparent 70%)`,
+                    backgroundSize: '200% 200%',
+                }}
+            />
 
             {/* Subtle diagonal red lines texture */}
             <div
@@ -52,7 +81,8 @@ const Projects = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+                <ZoomOnScroll intensity={0.15}>
+                    <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
@@ -60,11 +90,27 @@ const Projects = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.6, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                            onMouseEnter={() => !isMobile && setHoveredProject(index)}
+                            onMouseLeave={() => !isMobile && setHoveredProject(null)}
+                            onClick={() => isMobile && setHoveredProject(hoveredProject === index ? null : index)}
                         >
                             <Card3D delay={index * 0.1}>
                                 <div className="group relative rounded-2xl border border-red-500/10 bg-[#080808]
                                     hover:border-red-500/30 transition-all duration-400
-                                    shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden">
+                                    shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_40px_rgba(220,38,38,0.2)] overflow-hidden"
+                                >
+                                    {/* Cinematic edge glow on hover */}
+                                    {hoveredProject === index && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="absolute inset-0 z-[5] pointer-events-none rounded-2xl"
+                                            style={{
+                                                background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.1), transparent)',
+                                            }}
+                                        />
+                                    )}
 
                                     {/* Project Visual */}
                                     <div className={`relative h-56 md:h-64 overflow-hidden bg-gradient-to-br ${cardBgs[index % cardBgs.length]}`}>
@@ -102,30 +148,54 @@ const Projects = () => {
                                         {/* Bottom gradient */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent" />
 
-                                        {/* Hover overlay */}
-                                        <div className="absolute inset-0 bg-red-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100
-                                            transition-all duration-300 flex items-center justify-center gap-3 z-20">
-                                            <motion.a
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                href={project.github}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="px-5 py-2.5 bg-red-600 text-white text-sm font-bold rounded-full flex items-center gap-2 shadow-lg"
+                                        {/* Cinematic hover overlay */}
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: hoveredProject === index ? 1 : 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="absolute inset-0 bg-gradient-to-br from-red-950/70 via-black/60 to-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100
+                                            transition-all duration-300 flex flex-col items-center justify-center gap-4 z-20"
+                                        >
+                                            {/* Play button effect */}
+                                            <motion.div
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: hoveredProject === index ? 1 : 0 }}
+                                                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                                                className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center
+                                                    backdrop-blur-sm shadow-[0_0_40px_rgba(220,38,38,0.3)]"
                                             >
-                                                <FaGithub /> Source
-                                            </motion.a>
-                                            <motion.a
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                href={project.link || project.github}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="px-5 py-2.5 border border-red-500/40 text-white text-sm font-medium rounded-full flex items-center gap-2 backdrop-blur-sm"
+                                                <FaPlay className="text-white/60 text-6xl ml-1" size={24} />
+                                            </motion.div>
+
+                                            {/* Action buttons */}
+                                            <motion.div
+                                                initial={{ y: 20, opacity: 0 }}
+                                                animate={{ y: hoveredProject === index ? 0 : 20, opacity: hoveredProject === index ? 1 : 0 }}
+                                                transition={{ duration: 0.3, delay: 0.1 }}
+                                                className="flex items-center gap-3"
                                             >
-                                                <FaExternalLinkAlt size={11} /> Visit
-                                            </motion.a>
-                                        </div>
+                                                <motion.a
+                                                    whileHover={{ scale: 1.08 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    href={project.github}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="px-6 py-2.5 bg-red-600 text-white text-sm font-bold rounded-full flex items-center gap-2 shadow-lg hover:bg-red-500 transition-colors"
+                                                >
+                                                    <FaGithub /> Code
+                                                </motion.a>
+                                                <motion.a
+                                                    whileHover={{ scale: 1.08 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    href={project.link || project.github}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="px-6 py-2.5 border border-white/30 text-white text-sm font-medium rounded-full flex items-center gap-2 backdrop-blur-sm hover:border-white/50 transition-colors"
+                                                >
+                                                    <FaExternalLinkAlt size={12} /> Demo
+                                                </motion.a>
+                                            </motion.div>
+                                        </motion.div>
                                     </div>
 
                                     {/* Project Info */}
@@ -169,7 +239,8 @@ const Projects = () => {
                             </Card3D>
                         </motion.div>
                     ))}
-                </div>
+                    </div>
+                </ZoomOnScroll>
 
                 {/* Bottom CTA */}
                 <motion.div

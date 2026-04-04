@@ -1,8 +1,8 @@
-
 import { motion } from "framer-motion";
 import { FaLaptopCode, FaMicrochip, FaNetworkWired, FaRocket, FaCode } from "react-icons/fa";
 import { Tilt } from "react-tilt";
 import profileImg from "../assets/profile.png";
+import { SectionTransition } from "./SectionTransition";
 
 const About = () => {
     return (
@@ -47,7 +47,8 @@ const About = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <SectionTransition section="about">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
                     {/* ── Profile Photo Card ── */}
                     <div className="md:col-span-5 lg:col-span-4 h-full">
@@ -233,7 +234,8 @@ const About = () => {
                         </motion.div>
 
                     </div>
-                </div>
+                    </div>
+                </SectionTransition>
             </div>
         </section>
     );
