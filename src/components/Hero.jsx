@@ -57,9 +57,9 @@ const Hero = ({ onReset }) => {
             {/* ── Animated rings — pure CSS compositor ── */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
                 {[
-                    { size: 750, duration: '40s', dir: 'normal',  opacity: '0.07' },
-                    { size: 540, duration: '28s', dir: 'reverse',  opacity: '0.10' },
-                    { size: 360, duration: '18s', dir: 'normal',  opacity: '0.12' },
+                    { size: 750, duration: '40s', dir: 'normal', opacity: '0.07' },
+                    { size: 540, duration: '28s', dir: 'reverse', opacity: '0.10' },
+                    { size: 360, duration: '18s', dir: 'normal', opacity: '0.12' },
                 ].map(({ size, duration, dir, opacity }) => (
                     <div
                         key={size}
@@ -234,7 +234,7 @@ const Hero = ({ onReset }) => {
                     className="flex items-center gap-10 border-t border-white/8 pt-7"
                 >
                     {[
-                        { num: "3+",  label: "Years exp." },
+                        { num: "3+", label: "Years exp." },
                         { num: "25+", label: "Projects" },
                         { num: "15+", label: "Technologies" },
                     ].map(({ num, label }, i) => (

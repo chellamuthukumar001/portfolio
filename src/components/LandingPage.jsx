@@ -234,9 +234,9 @@ const GlitchText = ({ text, className = "" }) => {
 // DATA
 // ─────────────────────────────────────────────────────────────────────────────
 const slides = [
-    { tag: "// Full Stack Developer",    title: "CHELLA\nMUTHU\nKUMAR", subtitle: "Building seamless digital ecosystems", icon: FaCode },
-    { tag: "// IoT & Embedded Engineer", title: "AI\nENTHUSIAST",       subtitle: "Integrating intelligent systems",      icon: FaMicrochip },
-    { tag: "// React · Flutter · Node",  title: "FULL\nSTACK\nDEV",     subtitle: "Crafting premium user experiences",   icon: FaLayerGroup },
+    { tag: "// Full Stack Developer", title: "CHELLA\nMUTHU\nKUMAR", subtitle: "Building seamless digital ecosystems", icon: FaCode },
+    { tag: "// IoT & Embedded Engineer", title: "AI\nENTHUSIAST", subtitle: "Integrating intelligent systems", icon: FaMicrochip },
+    { tag: "// React · Flutter · Node", title: "FULL\nSTACK\nDEV", subtitle: "Crafting premium user experiences", icon: FaLayerGroup },
 ];
 
 function LiveClock() {
@@ -250,21 +250,21 @@ function LiveClock() {
 // ─────────────────────────────────────────────────────────────────────────────
 const LandingPage = ({ onEnter }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [showWarp,     setShowWarp]     = useState(false);
+    const [showWarp, setShowWarp] = useState(false);
     const [holdProgress, setHoldProgress] = useState(0);
-    const burstRef  = useRef(null);
+    const burstRef = useRef(null);
     const holdTimer = useRef(null);
-    const photoRef  = useRef(null);
+    const photoRef = useRef(null);
 
     // Photo 3D tilt via direct DOM mutation (no re-renders)
     useEffect(() => {
         const onMove = (e) => {
             if (!photoRef.current) return;
             const rect = photoRef.current.getBoundingClientRect();
-            const cx = rect.left + rect.width  / 2;
-            const cy = rect.top  + rect.height / 2;
-            const rx =  ((e.clientY - cy) / rect.height) * 18;
-            const ry = -((e.clientX - cx) / rect.width)  * 18;
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const rx = ((e.clientY - cy) / rect.height) * 18;
+            const ry = -((e.clientX - cx) / rect.width) * 18;
             photoRef.current.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
         };
         const onLeave = () => {
@@ -338,9 +338,8 @@ const LandingPage = ({ onEnter }) => {
                     <div className="flex gap-1.5 justify-end mt-2">
                         {slides.map((_, i) => (
                             <div key={i} onClick={(e) => { e.stopPropagation(); setCurrentSlide(i); }}
-                                className={`h-[2px] rounded-full cursor-pointer transition-all duration-400 ${
-                                    i === currentSlide ? "w-10 bg-red-500 shadow-[0_0_5px_rgba(220,38,38,0.8)]" : "w-3 bg-white/15 hover:bg-white/30"
-                                }`}
+                                className={`h-[2px] rounded-full cursor-pointer transition-all duration-400 ${i === currentSlide ? "w-10 bg-red-500 shadow-[0_0_5px_rgba(220,38,38,0.8)]" : "w-3 bg-white/15 hover:bg-white/30"
+                                    }`}
                             />
                         ))}
                     </div>
@@ -355,8 +354,8 @@ const LandingPage = ({ onEnter }) => {
                             <motion.div
                                 key={currentSlide}
                                 initial={{ x: -60, opacity: 0, filter: "blur(14px)" }}
-                                animate={{ x: 0,   opacity: 1, filter: "blur(0px)"  }}
-                                exit={{    x:  60, opacity: 0, filter: "blur(14px)" }}
+                                animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+                                exit={{ x: 60, opacity: 0, filter: "blur(14px)" }}
                                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                             >
                                 <div className="flex items-center gap-3 mb-5">

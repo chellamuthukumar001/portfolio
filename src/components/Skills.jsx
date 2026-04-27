@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { skills } from "../constants";
 
@@ -76,7 +75,6 @@ const levelLabel = (pct) => {
 };
 
 const SkillCard = ({ skill, index, isActive }) => {
-    const [hovered, setHovered] = useState(false);
     const pct = proficiencyMap[skill.name] ?? 70;
 
     return (
@@ -86,38 +84,29 @@ const SkillCard = ({ skill, index, isActive }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
             className="group relative cursor-pointer"
         >
             <div
-                className={`relative bg-[#0a0a0a] border rounded-2xl p-6 overflow-hidden transition-all duration-400
-                    ${hovered
-                        ? "border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.06)] bg-[#111]"
-                        : "border-white/8 hover:border-white/20"
-                    }`}
+                className="relative bg-[#0a0a0a] border border-white/8 hover:border-white/40 rounded-2xl p-6 overflow-hidden
+                    transition-all duration-300 hover:bg-[#111] hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]"
             >
                 {/* Top corner accent */}
-                <div className={`absolute top-0 right-0 w-16 h-16 border-t border-r rounded-br-none rounded-2xl transition-all duration-500
-                    ${hovered ? "border-white/40" : "border-white/5"}`} />
+                <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-white/5 group-hover:border-white/40 rounded-br-none rounded-2xl transition-all duration-500" />
 
                 {/* Icon row */}
                 <div className="flex items-center gap-4 mb-5">
-                    <div
-                        className={`text-4xl transition-all duration-300 filter ${hovered ? "grayscale-0 scale-110" : "grayscale brightness-200"}`}
-                        style={{ filter: hovered ? "none" : "grayscale(1) brightness(2)" }}
-                    >
-                        <skill.icon style={{ color: hovered ? skill.color : "#ffffff" }} />
+                    <div className="text-4xl transition-all duration-300 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110">
+                        <skill.icon style={{ color: skill.color }} />
                     </div>
                     <div>
                         <h4 className="text-lg font-orbitron font-bold text-white tracking-wide">
                             {skill.name}
                         </h4>
-                        <span className={`text-xs font-mono uppercase tracking-widest transition-colors duration-300 ${hovered ? "text-white/70" : "text-white/30"}`}>
+                        <span className="text-xs font-mono uppercase tracking-widest text-white/30 group-hover:text-white/70 transition-colors duration-300">
                             {levelLabel(pct)}
                         </span>
                     </div>
-                    <div className={`ml-auto text-2xl font-orbitron font-extrabold transition-colors duration-300 ${hovered ? "text-white" : "text-white/10"}`}>
+                    <div className="ml-auto text-2xl font-orbitron font-extrabold text-white/10 group-hover:text-white transition-colors duration-300">
                         {pct}%
                     </div>
                 </div>
@@ -128,24 +117,12 @@ const SkillCard = ({ skill, index, isActive }) => {
                         initial={{ width: 0 }}
                         animate={{ width: isActive ? `${pct}%` : 0 }}
                         transition={{ duration: 1.2, delay: index * 0.1 + 0.3, ease: "easeOut" }}
-                        className="h-full rounded-full relative"
+                        className="h-full rounded-full"
                         style={{
-                            background: hovered
-                                ? `linear-gradient(90deg, #ef4444 0%, rgba(185,28,28,0.6) 100%)`
-                                : `linear-gradient(90deg, #7f1d1d 0%, #ef4444 100%)`,
-                            boxShadow: hovered ? "0 0 12px rgba(220,38,38,0.5)" : "none",
-                            transition: "background 0.3s, box-shadow 0.3s",
+                            background: `linear-gradient(90deg, #7f1d1d 0%, #ef4444 100%)`,
                         }}
                     />
                 </div>
-
-                {/* Scan line reveal on hover */}
-                <motion.div
-                    initial={false}
-                    animate={{ x: hovered ? "100%" : "-100%" }}
-                    transition={{ duration: 0.7 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/5 to-transparent pointer-events-none"
-                />
             </div>
         </motion.div>
     );

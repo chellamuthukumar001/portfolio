@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FaBriefcase, FaProjectDiagram, FaMicrochip, FaStar } from 'react-icons/fa';
 
 const AnimatedCounter = ({ target, suffix = '' }) => {
-    const [count, setCount]   = useState(0);
+    const [count, setCount] = useState(0);
     const [started, setStarted] = useState(false);
     const ref = useRef(null);
 
@@ -19,7 +19,7 @@ const AnimatedCounter = ({ target, suffix = '' }) => {
     useEffect(() => {
         if (!started) return;
         let current = 0;
-        const steps     = 60;
+        const steps = 60;
         const increment = target / steps;
         const timer = setInterval(() => {
             current += increment;
@@ -34,10 +34,10 @@ const AnimatedCounter = ({ target, suffix = '' }) => {
 
 const StatsSection = () => {
     const stats = [
-        { label: 'Years Experience', value: 3,   suffix: '+', icon: FaBriefcase,      color: '#ef4444' },
-        { label: 'Projects Built',   value: 25,  suffix: '+', icon: FaProjectDiagram, color: '#f87171' },
-        { label: 'Technologies',     value: 15,  suffix: '+', icon: FaMicrochip,       color: '#ef4444' },
-        { label: 'Satisfaction',     value: 100, suffix: '%', icon: FaStar,            color: '#fca5a5' },
+        { label: 'Years Experience', value: 3, suffix: '+', icon: FaBriefcase, color: '#ef4444' },
+        { label: 'Projects Built', value: 25, suffix: '+', icon: FaProjectDiagram, color: '#f87171' },
+        { label: 'Technologies', value: 15, suffix: '+', icon: FaMicrochip, color: '#ef4444' },
+        { label: 'Satisfaction', value: 100, suffix: '%', icon: FaStar, color: '#fca5a5' },
     ];
 
     return (
@@ -72,15 +72,13 @@ const StatsSection = () => {
                                 )}
 
                                 {/* Icon circle */}
-                                <motion.div
-                                    whileHover={{ scale: 1.1 }}
+                                <div
                                     className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border border-red-500/20 bg-red-500/5
-                                        group-hover:border-red-500/50 group-hover:bg-red-500/10 transition-all duration-300"
-                                    style={{ boxShadow: '0 0 20px rgba(220,38,38,0)' }}
-                                    whileInView={{ boxShadow: ['0 0 0px rgba(220,38,38,0)', '0 0 20px rgba(220,38,38,0.2)', '0 0 0px rgba(220,38,38,0)'] }}
+                                        group-hover:border-red-500/50 group-hover:bg-red-500/10 group-hover:scale-110
+                                        group-hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all duration-300"
                                 >
                                     <Icon className="text-lg" style={{ color: stat.color }} />
-                                </motion.div>
+                                </div>
 
                                 {/* Counter */}
                                 <h3 className="text-5xl md:text-6xl font-orbitron font-black text-white mb-2

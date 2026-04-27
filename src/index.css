@@ -85,10 +85,19 @@ section {
   background-color: inherit;
 }
 
-/* Promote animated backgrounds to their own GPU layer */
-.absolute.inset-0 {
-  transform: translateZ(0);
+/* Canvas element gets its own GPU layer */
+canvas {
+  will-change: contents;
 }
+
+/* CSS-only card tilt hover — no JS needed */
+.tilt-hover-card {
+  transition: transform 0.3s ease;
+}
+.tilt-hover-card:hover {
+  transform: perspective(800px) rotateX(2deg) rotateY(-2deg) scale(1.01);
+}
+
 
 
 /* Reduce expensive backdrop-filter cost */
@@ -140,8 +149,13 @@ section {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes blink {

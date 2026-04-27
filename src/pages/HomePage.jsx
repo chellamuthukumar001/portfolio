@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import StatsSection from '../components/StatsSection';
 import AnimatedBackground from '../components/AnimatedBackground';
@@ -15,15 +15,15 @@ const Certifications = lazy(() => import('../components/Certifications'));
 
 // ─── Unique background per section (deeper red-black tints) ──────────────────
 const SECTION_BG = {
-    hero:           { color: '#000000',  label: 'Home' },
-    stats:          { color: '#0a0000',  label: 'Stats' },
-    about:          { color: '#140000',  label: 'About' },
-    services:       { color: '#080000',  label: 'Services' },
-    skills:         { color: '#180000',  label: 'Skills' },
-    certifications: { color: '#0c0000',  label: 'Certifications' },
-    projects:       { color: '#050000',  label: 'Projects' },
-    education:      { color: '#120000',  label: 'Education' },
-    contact:        { color: '#000000',  label: 'Contact' },
+    hero: { color: '#000000', label: 'Home' },
+    stats: { color: '#0a0000', label: 'Stats' },
+    about: { color: '#140000', label: 'About' },
+    services: { color: '#080000', label: 'Services' },
+    skills: { color: '#180000', label: 'Skills' },
+    certifications: { color: '#0c0000', label: 'Certifications' },
+    projects: { color: '#050000', label: 'Projects' },
+    education: { color: '#120000', label: 'Education' },
+    contact: { color: '#000000', label: 'Contact' },
 };
 
 // ─── Section patterns (more visible red-tinted) ───────────────────────────────
@@ -62,15 +62,15 @@ const PATTERNS = {
 
 // ─── Section radial glows — stronger, more vivid ─────────────────────────────
 const GLOWS = {
-    hero:           'radial-gradient(ellipse 70% 60% at 50% 35%, rgba(220,38,38,0.13) 0%, transparent 70%)',
-    stats:          'radial-gradient(ellipse 80% 40% at 50% 50%, rgba(220,38,38,0.06) 0%, transparent 70%)',
-    about:          'radial-gradient(ellipse 55% 65% at 80% 50%, rgba(220,38,38,0.10) 0%, transparent 70%)',
-    services:       'radial-gradient(ellipse 45% 50% at 10% 80%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    skills:         'radial-gradient(ellipse 65% 55% at 50% 20%, rgba(220,38,38,0.12) 0%, transparent 70%)',
+    hero: 'radial-gradient(ellipse 70% 60% at 50% 35%, rgba(220,38,38,0.13) 0%, transparent 70%)',
+    stats: 'radial-gradient(ellipse 80% 40% at 50% 50%, rgba(220,38,38,0.06) 0%, transparent 70%)',
+    about: 'radial-gradient(ellipse 55% 65% at 80% 50%, rgba(220,38,38,0.10) 0%, transparent 70%)',
+    services: 'radial-gradient(ellipse 45% 50% at 10% 80%, rgba(185,28,28,0.10) 0%, transparent 70%)',
+    skills: 'radial-gradient(ellipse 65% 55% at 50% 20%, rgba(220,38,38,0.12) 0%, transparent 70%)',
     certifications: 'radial-gradient(ellipse 55% 45% at 90% 30%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    projects:       'radial-gradient(ellipse 45% 65% at 20% 60%, rgba(220,38,38,0.10) 0%, transparent 70%)',
-    education:      'radial-gradient(ellipse 55% 45% at 70% 70%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    contact:        'radial-gradient(ellipse 65% 55% at 50% 80%, rgba(220,38,38,0.12) 0%, transparent 70%)',
+    projects: 'radial-gradient(ellipse 45% 65% at 20% 60%, rgba(220,38,38,0.10) 0%, transparent 70%)',
+    education: 'radial-gradient(ellipse 55% 45% at 70% 70%, rgba(185,28,28,0.10) 0%, transparent 70%)',
+    contact: 'radial-gradient(ellipse 65% 55% at 50% 80%, rgba(220,38,38,0.12) 0%, transparent 70%)',
 };
 
 const ORDER = ['hero', 'stats', 'about', 'services', 'skills', 'certifications', 'projects', 'education', 'contact'];
@@ -113,40 +113,33 @@ function Section({ id, onEnter, children }) {
 function SiteBackground({ activeSection }) {
     return (
         <>
-            {/* Base color layer — BELOW canvas (z-[-10]) with smooth morphing */}
-            <motion.div
+            {/* Base color layer */}
+            <div
                 className="fixed inset-0 z-[-10] pointer-events-none"
-                animate={{
+                style={{
                     backgroundColor: SECTION_BG[activeSection]?.color ?? '#000000',
-                }}
-                transition={{
-                    duration: 1.2,
-                    ease: [0.25, 0.46, 0.45, 0.94], // smooth cubic bezier
+                    transition: 'background-color 0.7s ease',
                 }}
             />
 
-            {/* Pattern layer — AnimatePresence for cross-fade */}
-            <AnimatePresence mode="wait">
-                {PATTERNS[activeSection] && (
-                    <motion.div
-                        key={`pattern-${activeSection}`}
-                        className="fixed inset-0 z-[-2] pointer-events-none"
-                        style={PATTERNS[activeSection]}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6 }}
-                    />
-                )}
-            </AnimatePresence>
+            {/* Pattern layer — simple CSS transition, no AnimatePresence */}
+            {PATTERNS[activeSection] && (
+                <div
+                    key={`pattern-${activeSection}`}
+                    className="fixed inset-0 z-[-2] pointer-events-none"
+                    style={{
+                        ...PATTERNS[activeSection],
+                        transition: 'opacity 0.5s ease',
+                    }}
+                />
+            )}
 
-            {/* Radial glow layer — unique per section with smooth morphing */}
-            <motion.div
+            {/* Radial glow layer */}
+            <div
                 className="fixed inset-0 z-[-1] pointer-events-none"
-                animate={{ background: GLOWS[activeSection] ?? 'none' }}
-                transition={{
-                    duration: 1.4,
-                    ease: [0.25, 0.46, 0.45, 0.94]
+                style={{
+                    background: GLOWS[activeSection] ?? 'none',
+                    transition: 'background 0.8s ease',
                 }}
             />
         </>
@@ -183,25 +176,15 @@ function SectionDots({ activeSection }) {
                             {SECTION_BG[id]?.label}
                         </span>
 
-                        {/* Dot / pill with cinematic glow */}
-                        <motion.div
-                            className={`rounded-full ${
-                                isActive
+                        {/* Dot / pill */}
+                        <div
+                            className={`rounded-full transition-all duration-300 ${isActive
                                     ? 'w-6 h-2 bg-red-500'
                                     : 'w-1.5 h-1.5 bg-white/15 group-hover:bg-red-500/40 group-hover:scale-125'
-                            }`}
-                            animate={isActive ? {
-                                boxShadow: [
-                                    '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
-                                    '0 0 15px rgba(220,38,38,1), 0 0 30px rgba(220,38,38,0.6)',
-                                    '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
-                                ]
+                                }`}
+                            style={isActive ? {
+                                boxShadow: '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
                             } : {}}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: 'easeInOut'
-                            }}
                         />
                     </button>
                 );
@@ -213,18 +196,21 @@ function SectionDots({ activeSection }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 const HomePage = ({ onReset }) => {
     const [activeSection, setActiveSection] = useState('hero');
+    const scrollBarRef = useRef(null);
 
     const handleEnter = useCallback((id) => {
         setActiveSection(id);
     }, []);
 
-    // Scroll progress (0–1)
-    const [scrollProgress, setScrollProgress] = useState(0);
+    // Scroll progress — direct DOM mutation avoids React re-renders on every scroll
     useEffect(() => {
+        const bar = scrollBarRef.current;
+        if (!bar) return;
         const onScroll = () => {
             const el = document.documentElement;
             const progress = el.scrollTop / (el.scrollHeight - el.clientHeight);
-            setScrollProgress(Math.min(1, Math.max(0, progress)));
+            const pct = Math.min(100, Math.max(0, progress * 100));
+            bar.style.width = `${pct}%`;
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
@@ -232,15 +218,17 @@ const HomePage = ({ onReset }) => {
 
     return (
         <>
-            {/* ── Top scroll progress bar ── */}
+            {/* ── Top scroll progress bar — direct DOM, no React re-renders ── */}
             <div className="fixed top-0 left-0 right-0 h-[2px] z-[100] pointer-events-none"
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
-                <motion.div
-                    className="h-full"
+                <div
+                    ref={scrollBarRef}
                     style={{
-                        width: `${scrollProgress * 100}%`,
+                        height: '100%',
+                        width: '0%',
                         background: 'linear-gradient(90deg, #dc2626, #ef4444, #f87171)',
                         boxShadow: '0 0 8px rgba(220,38,38,0.8)',
+                        willChange: 'width',
                     }}
                 />
             </div>
