@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { heroData, socialLinks } from "../constants";
-import { FaArrowRight, FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaArrowRight, FaLinkedin } from "react-icons/fa";
 import { HiOutlineArrowDown } from "react-icons/hi";
-import { ParallaxBackground } from "./ParallaxBackground";
 
 const ROLES = ["React Developer", "IoT & Embedded Engineer", "Flutter Specialist", "Full Stack Dev"];
 
@@ -43,8 +42,7 @@ function Typewriter() {
 
 const Hero = ({ onReset }) => {
     return (
-        <ParallaxBackground intensity={25}>
-            <section id="home" className="relative w-full min-h-screen flex flex-col overflow-hidden">
+        <section id="home" className="relative w-full min-h-screen flex flex-col overflow-hidden">
 
             {/* ── Rich background: radial glow at center ── */}
             <div
@@ -105,7 +103,6 @@ const Hero = ({ onReset }) => {
                     transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     className="mb-4"
                 >
-                    {/* Sub-label above name */}
                     <p className="text-white/20 text-xs font-mono tracking-[0.4em] uppercase mb-4">
                         // Portfolio · Full-Stack Developer
                     </p>
@@ -115,7 +112,6 @@ const Hero = ({ onReset }) => {
                         onClick={onReset}
                         title="Back to Opening"
                     >
-                        {/* First word white */}
                         <span className="text-white drop-shadow-[0_0_80px_rgba(255,255,255,0.18)]">
                             {heroData.name.split(" ").slice(0, 2).map((word, i) => (
                                 <motion.span
@@ -128,7 +124,6 @@ const Hero = ({ onReset }) => {
                                 </motion.span>
                             ))}
                         </span>
-                        {/* Last word — outlined red */}
                         <span
                             className="block mt-1"
                             style={{
@@ -263,8 +258,7 @@ const Hero = ({ onReset }) => {
                 </motion.div>
                 <span className="text-white/15 text-[9px] font-mono tracking-[0.4em] uppercase">scroll</span>
             </motion.div>
-            </section>
-        </ParallaxBackground>
+        </section>
     );
 };
 

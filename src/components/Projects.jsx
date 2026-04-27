@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import { projects } from "../constants";
 import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaTerminal, FaPlay } from "react-icons/fa";
 import Card3D from "./Card3D";
-import { SectionTransition, ZoomOnScroll } from "./SectionTransition";
 
 // Distinct dark red gradient backgrounds per project
 const cardBgs = [
@@ -28,20 +27,11 @@ const Projects = () => {
             {/* Cinematic gradient backdrop */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
 
-            {/* Animated gradient glow */}
-            <motion.div
+            {/* Static radial glow — no animation loop needed */}
+            <div
                 className="absolute inset-0 z-[1] pointer-events-none"
-                animate={{
-                    backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
                 style={{
                     background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,38,38,0.05) 0%, transparent 70%)`,
-                    backgroundSize: '200% 200%',
                 }}
             />
 
@@ -81,7 +71,12 @@ const Projects = () => {
                     </p>
                 </motion.div>
 
-                <ZoomOnScroll intensity={0.15}>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5 }}
+                >
                     <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
                     {projects.map((project, index) => (
                         <motion.div
@@ -240,7 +235,7 @@ const Projects = () => {
                         </motion.div>
                     ))}
                     </div>
-                </ZoomOnScroll>
+                </motion.div>
 
                 {/* Bottom CTA */}
                 <motion.div

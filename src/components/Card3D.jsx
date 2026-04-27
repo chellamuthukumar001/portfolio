@@ -1,27 +1,16 @@
-import { Tilt } from 'react-tilt';
 import { motion } from 'framer-motion';
 
+// Card3D — CSS-only 3D hover, no react-tilt JS overhead
 const Card3D = ({ children, className = '', delay = 0 }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay }}
+            transition={{ duration: 0.5, delay }}
+            className={`tilt-hover-card ${className}`}
+            style={{ willChange: 'transform' }}
         >
-            <Tilt
-                options={{
-                    max: 15,
-                    scale: 1.05,
-                    speed: 450,
-                    glare: true,
-                    'max-glare': 0.3,
-                }}
-                className={`tilt-card ${className}`}
-            >
-                <div className="relative bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-8 shadow-2xl">
-                    {children}
-                </div>
-            </Tilt>
+            {children}
         </motion.div>
     );
 };

@@ -61,7 +61,7 @@ export const SectionTransition = ({ children, section = 'default', delay = 0 }) 
                 ease: [0.25, 0.46, 0.45, 0.94], // smooth cubic easing
             }}
             viewport={{
-                once: false,
+                once: true,
                 margin: '-80px',
                 amount: 'some',
             }}
@@ -89,7 +89,7 @@ export const CinematicReveal = ({ children, stagger = 0.1 }) => {
                         delay: i * stagger,
                         ease: 'easeOut',
                     }}
-                    viewport={{ once: false, margin: '-50px' }}
+                    viewport={{ once: true, margin: '-50px' }}
                 >
                     {child}
                 </motion.div>
@@ -110,7 +110,7 @@ export const ZoomOnScroll = ({ children, intensity = 0.1 }) => {
                 duration: 0.8,
                 ease: [0.25, 0.46, 0.45, 0.94],
             }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
         >
             {children}
         </motion.div>
@@ -129,7 +129,7 @@ export const FadeInOnScroll = ({ children, duration = 0.6, delay = 0 }) => {
                 duration,
                 delay,
             }}
-            viewport={{ once: false, margin: '-80px' }}
+            viewport={{ once: true, margin: '-80px' }}
         >
             {children}
         </motion.div>
@@ -151,7 +151,7 @@ export const SlideInFromSide = ({ children, direction = 'left', delay = 0 }) => 
                 delay,
                 ease: [0.25, 0.46, 0.45, 0.94],
             }}
-            viewport={{ once: false, margin: '-80px' }}
+            viewport={{ once: true, margin: '-80px' }}
         >
             {children}
         </motion.div>
