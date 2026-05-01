@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 /**
@@ -50,7 +50,7 @@ export const ParallaxBackground = ({ children, intensity = 30 }) => {
             <motion.div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
-                    background: 'radial-gradient(ellipse 120% 100% at 50% 50%, rgba(220,38,38,0.08) 0%, transparent 70%)',
+                    background: 'radial-gradient(ellipse 120% 100% at 50% 50%, rgba(0,170,255,0.08) 0%, transparent 70%)',
                     y: scrollY * 0.02,
                     x: mousePosition.x * 0.3,
                 }}
@@ -158,3 +158,4 @@ export const CinematicGradientBg = ({ animate = true }) => {
 };
 
 export default ParallaxBackground;
+

@@ -2,10 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { FaPowerOff, FaCode, FaMicrochip, FaLayerGroup } from "react-icons/fa";
 import profileImg from "../assets/profile.png";
+import ParticleBackground from "./ParticleBackground";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // WARP TRANSITION
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function WarpTransition({ onDone }) {
     const canvasRef = useRef(null);
     useEffect(() => {
@@ -23,12 +24,12 @@ function WarpTransition({ onDone }) {
             isRed: Math.random() > 0.3,
         }));
         const rings = [
-            { t: 0.0, color: "rgba(220,38,38,0.95)", maxR: Math.hypot(W, H) * 1.1, width: 5 },
+            { t: 0.0, color: "rgba(0,170,255,0.95)", maxR: Math.hypot(W, H) * 1.1, width: 5 },
             { t: 0.1, color: "rgba(255,60,60,0.7)", maxR: Math.hypot(W, H) * 1.3, width: 3 },
             { t: 0.2, color: "rgba(255,255,255,0.35)", maxR: Math.hypot(W, H) * 1.5, width: 1.5 },
         ];
         let t = 0;
-        const DURATION = 1.6;
+        const DURATION = 0.9;
         let raf;
         const draw = () => {
             t += 0.016;
@@ -45,7 +46,7 @@ function WarpTransition({ onDone }) {
                     const x2 = CX + Math.cos(s.angle) * e, y2 = CY + Math.sin(s.angle) * e;
                     const g = ctx.createLinearGradient(x1, y1, x2, y2);
                     g.addColorStop(0, "rgba(0,0,0,0)");
-                    g.addColorStop(0.4, s.isRed ? `rgba(220,38,38,${Math.min(wP * 5, 1)})` : `rgba(255,255,255,${Math.min(wP * 3, 0.7)})`);
+                    g.addColorStop(0.4, s.isRed ? `rgba(0,170,255,${Math.min(wP * 5, 1)})` : `rgba(255,255,255,${Math.min(wP * 3, 0.7)})`);
                     g.addColorStop(1, "rgba(0,0,0,0)");
                     ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
                     ctx.strokeStyle = g; ctx.lineWidth = s.width * (1 + wP * 3); ctx.stroke();
@@ -72,138 +73,19 @@ function WarpTransition({ onDone }) {
     return <canvas ref={canvasRef} className="fixed inset-0 z-[10000] pointer-events-none" />;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MASTER CANVAS — all GPU effects in one canvas (no React re-renders)
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// MASTER CANVAS â€” DISABLED FOR PERFORMANCE (Replaced by global 3D background)
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const MasterCanvas = ({ burstRef }) => {
-    const canvasRef = useRef(null);
-
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        let W = (canvas.width = window.innerWidth);
-        let H = (canvas.height = window.innerHeight);
-        const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
-        window.addEventListener("resize", onResize);
-
-        // Mouse tracked via ref — NO state updates
-        const mouse = { x: W / 2, y: H / 2 };
-        const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-        window.addEventListener("mousemove", onMove, { passive: true });
-
-        // Particles — fewer, simpler
-        const NUM = 55;
-        const particles = Array.from({ length: NUM }, () => ({
-            x: Math.random() * W, y: Math.random() * H,
-            vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-            r: Math.random() * 1.4 + 0.4,
-            red: Math.random() < 0.38,
-            baseAlpha: Math.random() * 0.25 + 0.06,
-            alpha: 0.1,
-        }));
-
-        // Burst particles
-        const bursts = [];
-        burstRef.current = (x, y) => {
-            for (let i = 0; i < 20; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = 2 + Math.random() * 4;
-                bursts.push({
-                    x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-                    life: 1, r: Math.random() * 2 + 0.6, red: Math.random() > 0.3,
-                });
-            }
-        };
-
-        const GRID = 65;
-        const ATTRACT = 160;
-        const CONNECT = 100;
-        let tick = 0;
-        let raf;
-
-        const draw = () => {
-            ctx.clearRect(0, 0, W, H);
-
-            // ── Grid ───────────────────────────────────────────────────────
-            ctx.lineWidth = 0.5;
-            const offset = (tick * 0.1) % GRID;
-            ctx.strokeStyle = "rgba(220,38,38,0.025)";
-            for (let x = offset; x < W; x += GRID) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-            for (let y = offset; y < H; y += GRID) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-
-            // ── Scan lines ──────────────────────────────────────────────────
-            const sg = ctx.createLinearGradient(0, mouse.y - 40, 0, mouse.y + 40);
-            sg.addColorStop(0, "rgba(220,38,38,0)"); sg.addColorStop(0.5, "rgba(220,38,38,0.08)"); sg.addColorStop(1, "rgba(220,38,38,0)");
-            ctx.fillStyle = sg; ctx.fillRect(0, mouse.y - 40, W, 80);
-            const vg = ctx.createLinearGradient(mouse.x - 30, 0, mouse.x + 30, 0);
-            vg.addColorStop(0, "rgba(220,38,38,0)"); vg.addColorStop(0.5, "rgba(220,38,38,0.06)"); vg.addColorStop(1, "rgba(220,38,38,0)");
-            ctx.fillStyle = vg; ctx.fillRect(mouse.x - 30, 0, 60, H);
-
-            // ── Particles ───────────────────────────────────────────────────
-            particles.forEach(p => {
-                const dx = mouse.x - p.x, dy = mouse.y - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < ATTRACT && dist > 0.5) {
-                    const f = ((ATTRACT - dist) / ATTRACT) * 0.035;
-                    p.vx += (dx / dist) * f; p.vy += (dy / dist) * f;
-                }
-                p.vx *= 0.97; p.vy *= 0.97;
-                p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
-                const prox = dist < ATTRACT ? (1 - dist / ATTRACT) : 0;
-                p.alpha = p.baseAlpha + prox * 0.45;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (1 + prox * 0.8), 0, Math.PI * 2);
-                ctx.fillStyle = p.red ? `rgba(220,38,38,${p.alpha})` : `rgba(255,255,255,${p.alpha * 0.45})`;
-                ctx.fill();
-            });
-
-            // ── Connections (limit to nearby pairs only) ───────────────────
-            ctx.lineWidth = 0.4;
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < Math.min(i + 12, particles.length); j++) {
-                    const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < CONNECT) {
-                        ctx.strokeStyle = `rgba(220,38,38,${0.06 * (1 - d / CONNECT)})`;
-                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-                    }
-                }
-            }
-
-            // ── Burst particles ─────────────────────────────────────────────
-            for (let i = bursts.length - 1; i >= 0; i--) {
-                const b = bursts[i];
-                b.x += b.vx; b.y += b.vy; b.vx *= 0.92; b.vy *= 0.92; b.life -= 0.03;
-                if (b.life <= 0) { bursts.splice(i, 1); continue; }
-                ctx.beginPath(); ctx.arc(b.x, b.y, b.r * b.life, 0, Math.PI * 2);
-                ctx.fillStyle = b.red ? `rgba(220,38,38,${b.life})` : `rgba(255,255,255,${b.life * 0.7})`;
-                ctx.fill();
-            }
-
-            // ── Cursor dot ─────────────────────────────────────────────────
-            ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(220,38,38,0.85)"; ctx.fill();
-            ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 14, 0, Math.PI * 2);
-            ctx.strokeStyle = "rgba(220,38,38,0.35)"; ctx.lineWidth = 1; ctx.stroke();
-
-            tick++;
-            raf = requestAnimationFrame(draw);
-        };
-
-        draw();
-        return () => {
-            cancelAnimationFrame(raf);
-            window.removeEventListener("resize", onResize);
-            window.removeEventListener("mousemove", onMove);
-        };
+        burstRef.current = () => {};
     }, [burstRef]);
-
-    return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" style={{ cursor: "none" }} />;
+    return null;  // Global ParticleBackground in App.jsx is fixed and covers landing page
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // GLITCH TEXT (periodic, low frequency)
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const GlitchText = ({ text, className = "" }) => {
     const [glitch, setGlitch] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -230,13 +112,13 @@ const GlitchText = ({ text, className = "" }) => {
     );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // DATA
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const slides = [
     { tag: "// Full Stack Developer", title: "CHELLA\nMUTHU\nKUMAR", subtitle: "Building seamless digital ecosystems", icon: FaCode },
     { tag: "// IoT & Embedded Engineer", title: "AI\nENTHUSIAST", subtitle: "Integrating intelligent systems", icon: FaMicrochip },
-    { tag: "// React · Flutter · Node", title: "FULL\nSTACK\nDEV", subtitle: "Crafting premium user experiences", icon: FaLayerGroup },
+    { tag: "// React Â· Flutter Â· Node", title: "FULL\nSTACK\nDEV", subtitle: "Crafting premium user experiences", icon: FaLayerGroup },
 ];
 
 function LiveClock() {
@@ -245,16 +127,22 @@ function LiveClock() {
     return <span>{time.toLocaleTimeString("en-US", { hour12: false })}</span>;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MAIN LANDING PAGE
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const LandingPage = ({ onEnter }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [showWarp, setShowWarp] = useState(false);
-    const [holdProgress, setHoldProgress] = useState(0);
     const burstRef = useRef(null);
     const holdTimer = useRef(null);
     const photoRef = useRef(null);
+    // Hold progress refs — DOM-mutated directly, no React re-renders
+    const holdProgressRef = useRef(0);
+    const svgCircleRef   = useRef(null);
+    const glowRef        = useRef(null);
+    const labelRef       = useRef(null);
+    const iconRef        = useRef(null);
+    const buttonRef      = useRef(null);
 
     // Photo 3D tilt via direct DOM mutation (no re-renders)
     useEffect(() => {
@@ -296,16 +184,64 @@ const LandingPage = ({ onEnter }) => {
     }, []);
 
     const startHold = useCallback(() => {
-        setHoldProgress(0);
-        holdTimer.current = setInterval(() => {
-            setHoldProgress(p => {
-                if (p >= 100) { clearInterval(holdTimer.current); setShowWarp(true); return 100; }
-                return p + 2;
-            });
-        }, 20);
+        holdProgressRef.current = 0;
+        const STEP = 100 / (1200 / 16); // fill in ~1.2s at ~60fps
+        const tick = () => {
+            holdProgressRef.current = Math.min(100, holdProgressRef.current + STEP);
+            const p = holdProgressRef.current;
+            const dash = 301.6 - (301.6 * p) / 100;
+
+            // Direct DOM updates — zero React re-renders
+            if (svgCircleRef.current) {
+                svgCircleRef.current.style.strokeDashoffset = dash;
+                svgCircleRef.current.style.filter = p > 0 ? 'drop-shadow(0 0 4px rgba(0,170,255,0.8))' : 'none';
+            }
+            if (glowRef.current) {
+                glowRef.current.style.opacity = p / 130;
+                glowRef.current.style.transform = `scale(${1 + p / 90})`;
+                glowRef.current.style.display = 'block';
+            }
+            if (labelRef.current) {
+                labelRef.current.textContent = p >= 100 ? '100%' : `${Math.floor(p)}%`;
+                labelRef.current.style.color = p > 0 ? 'rgba(248,113,113,1)' : 'rgba(255,255,255,0.28)';
+            }
+            if (iconRef.current) {
+                iconRef.current.style.color = p > 0 ? 'rgb(239,68,68)' : 'rgba(255,255,255,0.22)';
+                iconRef.current.style.transform = p > 0 ? 'scale(1.25)' : 'scale(1)';
+                iconRef.current.style.filter = p > 0 ? 'drop-shadow(0 0 6px rgba(0,170,255,0.9))' : 'none';
+            }
+            if (buttonRef.current) {
+                buttonRef.current.style.boxShadow = p > 0 ? '0 0 30px rgba(0,170,255,0.35)' : 'none';
+            }
+
+            if (p >= 100) {
+                setShowWarp(true);
+                return;
+            }
+            holdTimer.current = requestAnimationFrame(tick);
+        };
+        holdTimer.current = requestAnimationFrame(tick);
     }, []);
 
-    const stopHold = useCallback(() => { clearInterval(holdTimer.current); setHoldProgress(0); }, []);
+    const stopHold = useCallback(() => {
+        cancelAnimationFrame(holdTimer.current);
+        holdProgressRef.current = 0;
+        if (svgCircleRef.current) {
+            svgCircleRef.current.style.strokeDashoffset = 301.6;
+            svgCircleRef.current.style.filter = 'none';
+        }
+        if (glowRef.current)  glowRef.current.style.display = 'none';
+        if (labelRef.current) {
+            labelRef.current.textContent = 'Hold';
+            labelRef.current.style.color = 'rgba(255,255,255,0.28)';
+        }
+        if (iconRef.current) {
+            iconRef.current.style.color = 'rgba(255,255,255,0.22)';
+            iconRef.current.style.transform = 'scale(1)';
+            iconRef.current.style.filter = 'none';
+        }
+        if (buttonRef.current) buttonRef.current.style.boxShadow = 'none';
+    }, []);
 
     const slide = slides[currentSlide];
 
@@ -314,41 +250,40 @@ const LandingPage = ({ onEnter }) => {
             {showWarp && <WarpTransition onDone={onEnter} />}
 
             <motion.div
-                className="fixed inset-0 z-50 bg-[#030303] text-white overflow-hidden flex items-center justify-center font-orbitron"
-                style={{ cursor: "none" }}
+                className="fixed inset-0 z-50 bg-transparent text-white overflow-hidden flex items-center justify-center font-orbitron"
                 exit={{ opacity: 0, scale: 1.03, transition: { duration: 0.25 } }}
                 onClick={handleClick}
             >
                 {/* Single master canvas for ALL effects */}
                 <MasterCanvas burstRef={burstRef} />
 
-                {/* ── HUD: top-left ── */}
+                {/* â”€â”€ HUD: top-left â”€â”€ */}
                 <div className="absolute top-8 left-8 z-20 font-mono text-[9px] text-red-500/55 uppercase tracking-widest space-y-1.5 select-none pointer-events-none">
                     <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_5px_rgba(220,38,38,0.8)] animate-pulse" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_5px_rgba(0,170,255,0.8)] animate-pulse" />
                         SYSTEM ONLINE
                     </div>
                     <div className="text-white/20">TS: <LiveClock /></div>
                     <div className="text-white/15 mt-2 border-t border-white/6 pt-2">[SPACE] to enter</div>
                 </div>
 
-                {/* ── HUD: top-right ── */}
+                {/* â”€â”€ HUD: top-right â”€â”€ */}
                 <div className="absolute top-8 right-8 z-20 font-mono text-[9px] text-right space-y-2 select-none">
                     <div className="text-red-500/50 uppercase tracking-widest">AUTH_V3.0.4</div>
                     <div className="flex gap-1.5 justify-end mt-2">
                         {slides.map((_, i) => (
                             <div key={i} onClick={(e) => { e.stopPropagation(); setCurrentSlide(i); }}
-                                className={`h-[2px] rounded-full cursor-pointer transition-all duration-400 ${i === currentSlide ? "w-10 bg-red-500 shadow-[0_0_5px_rgba(220,38,38,0.8)]" : "w-3 bg-white/15 hover:bg-white/30"
+                                className={`h-[2px] rounded-full cursor-pointer transition-all duration-400 ${i === currentSlide ? "w-10 bg-red-500 shadow-[0_0_5px_rgba(0,170,255,0.8)]" : "w-3 bg-white/15 hover:bg-white/30"
                                     }`}
                             />
                         ))}
                     </div>
                 </div>
 
-                {/* ── Main content ── */}
+                {/* â”€â”€ Main content â”€â”€ */}
                 <div className="relative z-30 w-full max-w-7xl px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-12">
 
-                    {/* LEFT — slide text */}
+                    {/* LEFT â€” slide text */}
                     <div className="flex-1 min-w-0">
                         <AnimatePresence mode="wait">
                             <motion.div
@@ -379,7 +314,7 @@ const LandingPage = ({ onEnter }) => {
                                 <div className="flex flex-wrap gap-2">
                                     {["React", "Flutter", "IoT", "AI Agents", "Node.js"].map(tag => (
                                         <motion.span key={tag}
-                                            whileHover={{ scale: 1.1, borderColor: "rgba(220,38,38,0.55)" }}
+                                            whileHover={{ scale: 1.1, borderColor: "rgba(0,170,255,0.55)" }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={(e) => { e.stopPropagation(); burstRef.current?.(e.clientX, e.clientY); }}
                                             className="text-[10px] font-mono text-white/22 border border-white/10 px-3 py-1 rounded-full cursor-pointer"
@@ -390,7 +325,7 @@ const LandingPage = ({ onEnter }) => {
                         </AnimatePresence>
                     </div>
 
-                    {/* RIGHT — photo + button */}
+                    {/* RIGHT â€” photo + button */}
                     <div className="flex flex-col items-center gap-10 shrink-0">
 
                         {/* 3D tilt photo (tilt via direct DOM, no state) */}
@@ -401,7 +336,7 @@ const LandingPage = ({ onEnter }) => {
                                 <div className="absolute -inset-10 rounded-full border border-red-500/08"
                                     style={{ animation: "spin 24s linear infinite reverse" }} />
                                 <div className="w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden border-2 border-red-500/30
-                                    shadow-[0_0_45px_rgba(220,38,38,0.25)] relative">
+                                    shadow-[0_0_45px_rgba(0,170,255,0.25)] relative">
                                     <img src={profileImg} alt="Chella Muthu Kumar"
                                         className="w-full h-full object-cover object-top"
                                         style={{ filter: "brightness(1.12) contrast(1.05)" }} />
@@ -422,49 +357,46 @@ const LandingPage = ({ onEnter }) => {
                                 animate={{ rotate: -360 }} transition={{ duration: 32, repeat: Infinity, ease: "linear" }} />
 
                             <button
+                                ref={buttonRef}
                                 onMouseDown={startHold} onMouseUp={stopHold}
                                 onMouseLeave={stopHold} onTouchStart={startHold} onTouchEnd={stopHold}
                                 className="relative w-32 h-32 flex flex-col items-center justify-center rounded-full
                                     border border-white/8 bg-black/50 backdrop-blur-xl
                                     hover:border-red-500/45 transition-colors duration-300"
-                                style={{ boxShadow: holdProgress > 0 ? "0 0 30px rgba(220,38,38,0.35)" : "none" }}
                             >
                                 <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
                                     <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" />
-                                    <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(220,38,38,0.9)" strokeWidth="2.5"
+                                    <circle ref={svgCircleRef} cx="50" cy="50" r="48" fill="none" stroke="rgba(0,170,255,0.9)" strokeWidth="2.5"
                                         strokeLinecap="round"
                                         style={{
                                             strokeDasharray: 301.6,
-                                            strokeDashoffset: 301.6 - (301.6 * holdProgress) / 100,
-                                            filter: holdProgress > 0 ? "drop-shadow(0 0 4px rgba(220,38,38,0.8))" : "none",
-                                            transition: "stroke-dashoffset 0.05s linear",
+                                            strokeDashoffset: 301.6,
                                         }}
                                     />
                                 </svg>
-                                <FaPowerOff className={`text-3xl transition-all duration-200 ${holdProgress > 0 ? "text-red-500 scale-125" : "text-white/22 group-hover:text-red-500/55"}`}
-                                    style={holdProgress > 0 ? { filter: "drop-shadow(0 0 6px rgba(220,38,38,0.9))" } : {}} />
-                                <span className={`mt-2 text-[8px] font-mono tracking-[0.22em] uppercase ${holdProgress > 0 ? "text-red-400" : "text-white/28 group-hover:text-white/55"}`}>
-                                    {holdProgress > 0 ? `${holdProgress}%` : "Hold"}
+                                <span ref={iconRef} className="text-3xl transition-transform duration-200 flex items-center justify-center"
+                                    style={{ color: 'rgba(255,255,255,0.22)' }}>
+                                    <FaPowerOff />
                                 </span>
+                                <span ref={labelRef} className="mt-2 text-[8px] font-mono tracking-[0.22em] uppercase"
+                                    style={{ color: 'rgba(255,255,255,0.28)' }}>Hold</span>
                             </button>
 
-                            {holdProgress > 0 && (
-                                <motion.div className="absolute inset-0 rounded-full bg-red-600 blur-[50px] z-[-1]"
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: holdProgress / 130, scale: 1 + holdProgress / 90 }}
-                                    transition={{ duration: 0.07 }}
-                                />
-                            )}
+                            {/* Glow orb — shown/hidden via ref, no state */}
+                            <div ref={glowRef}
+                                className="absolute inset-0 rounded-full bg-red-600 blur-[50px] z-[-1]"
+                                style={{ display: 'none', opacity: 0 }}
+                            />
                         </div>
 
                         <motion.p animate={{ opacity: [0.22, 0.5, 0.22] }} transition={{ duration: 2.5, repeat: Infinity }}
                             className="text-[8px] font-mono text-white/28 tracking-[0.32em] uppercase text-center select-none">
-                            Hold · or press [Space]
+                            Hold Â· or press [Space]
                         </motion.p>
                     </div>
                 </div>
 
-                {/* ── Corner brackets ── */}
+                {/* â”€â”€ Corner brackets â”€â”€ */}
                 <div className="absolute inset-0 pointer-events-none">
                     {[
                         "top-14 left-14 border-t-2 border-l-2",
@@ -478,7 +410,7 @@ const LandingPage = ({ onEnter }) => {
                     ))}
                 </div>
 
-                {/* ── Bottom branding ── */}
+                {/* â”€â”€ Bottom branding â”€â”€ */}
                 <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 select-none pointer-events-none">
                     <div className="flex gap-1">
                         {[0, 1, 2].map(i => (
@@ -495,3 +427,4 @@ const LandingPage = ({ onEnter }) => {
 };
 
 export default LandingPage;
+

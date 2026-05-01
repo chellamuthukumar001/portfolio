@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { services } from "../constants";
 import { Tilt } from "react-tilt";
 
@@ -8,7 +8,7 @@ const Services = () => {
 
             {/* Section glow top */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] pointer-events-none"
-                style={{ background: "linear-gradient(90deg, transparent, rgba(220,38,38,0.5), transparent)" }} />
+                style={{ background: "linear-gradient(90deg, transparent, rgba(0,170,255,0.5), transparent)" }} />
 
             <div className="relative z-10 max-w-7xl mx-auto px-6">
 
@@ -21,11 +21,11 @@ const Services = () => {
                     className="text-center mb-20"
                 >
                     <p className="text-[10px] font-mono text-red-500/60 uppercase tracking-[0.45em] mb-5">
-                        // 02 — Services
+                        // 02 â€” Services
                     </p>
                     <h2 className="text-5xl md:text-7xl font-grotesk font-bold text-white mb-5 leading-none">
                         What I{" "}
-                        <span style={{ WebkitTextStroke: "2px rgba(220,38,38,0.55)", color: "transparent" }}>
+                        <span style={{ WebkitTextStroke: "2px rgba(0,170,255,0.55)", color: "transparent" }}>
                             Deliver
                         </span>
                     </h2>
@@ -41,7 +41,7 @@ const Services = () => {
                     />
                 </motion.div>
 
-                {/* Cards — 3 columns on lg */}
+                {/* Cards â€” 3 columns on lg */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {services.map((service, index) => (
                         <Tilt key={index} options={{ max: 14, scale: 1.03, speed: 350 }} className="flex">
@@ -61,7 +61,7 @@ const Services = () => {
                                         {String(index + 1).padStart(2, "0")}
                                     </span>
 
-                                    {/* Top accent bar — animated in on hover */}
+                                    {/* Top accent bar â€” animated in on hover */}
                                     <div className="absolute top-0 left-8 right-8 h-[2px] rounded-full
                                         bg-gradient-to-r from-transparent via-red-500/0 to-transparent
                                         group-hover:via-red-500/60 transition-all duration-500" />
@@ -110,9 +110,10 @@ const Services = () => {
 
             {/* Section glow bottom */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] pointer-events-none"
-                style={{ background: "linear-gradient(90deg, transparent, rgba(220,38,38,0.3), transparent)" }} />
+                style={{ background: "linear-gradient(90deg, transparent, rgba(0,170,255,0.3), transparent)" }} />
         </section>
     );
 };
 
 export default Services;
+

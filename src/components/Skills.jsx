@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { skills } from "../constants";
 
@@ -168,7 +168,7 @@ const Skills = () => {
                         <span
                             className="relative inline-block"
                             style={{
-                                WebkitTextStroke: "1px rgba(220,38,38,0.4)",
+                                WebkitTextStroke: "1px rgba(0,170,255,0.4)",
                                 color: "transparent",
                             }}
                         >
@@ -183,7 +183,7 @@ const Skills = () => {
                         </span>
                     </h2>
                     <p className="text-white/40 text-center text-lg max-w-2xl mx-auto font-light leading-relaxed">
-                        A precision-engineered toolkit spanning full-stack, embedded, and mobile —
+                        A precision-engineered toolkit spanning full-stack, embedded, and mobile â€”
                         continuously upgraded for bleeding-edge projects.
                     </p>
                 </motion.div>
@@ -202,7 +202,7 @@ const Skills = () => {
                             onClick={() => setActiveCategory(cat.id)}
                             className={`relative px-6 py-3 rounded-full font-orbitron text-sm tracking-wider transition-all duration-300 outline-none border
                                 ${activeCategory === cat.id
-                                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.3)]"
+                                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_20px_rgba(0,170,255,0.3)]"
                                     : "bg-transparent text-white/50 border-white/10 hover:border-red-500/40 hover:text-white/80"
                                 }`}
                         >
@@ -223,7 +223,7 @@ const Skills = () => {
                         className="text-center mb-10"
                     >
                         <p className="text-white/30 text-sm font-mono tracking-widest uppercase">
-                            — {current.description} —
+                            â€” {current.description} â€”
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -283,7 +283,7 @@ const Skills = () => {
                     transition={{ delay: 0.6 }}
                     className="mt-8 text-center text-white/15 text-xs font-mono tracking-[0.3em] uppercase"
                 >
-                    // System version: 2025 build — continuously upgrading
+                    // System version: 2025 build â€” continuously upgrading
                 </motion.p>
 
             </div>
@@ -292,3 +292,4 @@ const Skills = () => {
 };
 
 export default Skills;
+

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+﻿import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { education } from "../constants";
 import {
@@ -22,7 +22,7 @@ const EduTimeline = () => {
         ...edu,
         icon: index === 0 ? FaGraduationCap : index === 1 ? FaTrophy : FaBookOpen,
         status: edu.period.includes("Present") ? "Ongoing" : "Completed",
-        gpa: index === 0 ? "—" : index === 1 ? "Top %" : "—",
+        gpa: index === 0 ? "â€”" : index === 1 ? "Top %" : "â€”",
         highlights: [edu.description],
         courses: index === 0 ? ["IoT", "Web", "AI"] : ["CS", "Maths", "Science"]
     }));
@@ -62,7 +62,7 @@ const EduTimeline = () => {
                         <br />
                         <span
                             style={{
-                                WebkitTextStroke: "1px rgba(220,38,38,0.5)",
+                                WebkitTextStroke: "1px rgba(0,170,255,0.5)",
                                 color: "transparent",
                             }}
                         >
@@ -82,7 +82,7 @@ const EduTimeline = () => {
 
                             {/* Node */}
                             <div className="absolute left-0 top-0 z-10">
-                                <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300 bg-black ${expandedIndex === index ? 'border-red-500 shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10'}`}>
+                                <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300 bg-black ${expandedIndex === index ? 'border-red-500 shadow-[0_0_15px_rgba(0,170,255,0.3)]' : 'border-white/10'}`}>
                                     <edu.icon className={expandedIndex === index ? 'text-red-500' : 'text-white/30'} />
                                 </div>
                             </div>
@@ -91,7 +91,7 @@ const EduTimeline = () => {
                                 <motion.div
                                     layout
                                     onClick={() => toggle(index)}
-                                    className={`p-6 rounded-2xl border cursor-pointer transition-all duration-300 ${expandedIndex === index ? 'bg-white/[0.03] border-red-500/30 shadow-[0_0_40px_rgba(220,38,38,0.05)]' : 'bg-black border-white/5 hover:border-red-500/20'}`}
+                                    className={`p-6 rounded-2xl border cursor-pointer transition-all duration-300 ${expandedIndex === index ? 'bg-white/[0.03] border-red-500/30 shadow-[0_0_40px_rgba(0,170,255,0.05)]' : 'bg-black border-white/5 hover:border-red-500/20'}`}
                                 >
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
@@ -147,3 +147,4 @@ const EduTimeline = () => {
 };
 
 export default EduTimeline;
+

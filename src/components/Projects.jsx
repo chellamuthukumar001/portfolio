@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { projects } from "../constants";
 import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaTerminal, FaPlay } from "react-icons/fa";
@@ -27,11 +27,11 @@ const Projects = () => {
             {/* Cinematic gradient backdrop */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
 
-            {/* Static radial glow — no animation loop needed */}
+            {/* Static radial glow â€” no animation loop needed */}
             <div
                 className="absolute inset-0 z-[1] pointer-events-none"
                 style={{
-                    background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,38,38,0.05) 0%, transparent 70%)`,
+                    background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,170,255,0.05) 0%, transparent 70%)`,
                 }}
             />
 
@@ -62,7 +62,7 @@ const Projects = () => {
                     <h2 className="text-5xl md:text-7xl font-grotesk font-bold mb-4">
                         <span className="text-white">Featured</span>
                         {" "}
-                        <span style={{ WebkitTextStroke: "1px rgba(220,38,38,0.4)", color: "transparent" }}>
+                        <span style={{ WebkitTextStroke: "1px rgba(0,170,255,0.4)", color: "transparent" }}>
                             Projects
                         </span>
                     </h2>
@@ -92,7 +92,7 @@ const Projects = () => {
                             <Card3D delay={index * 0.1}>
                                 <div className="group relative rounded-2xl border border-red-500/10 bg-[#080808]
                                     hover:border-red-500/30 transition-all duration-400
-                                    shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_40px_rgba(220,38,38,0.2)] overflow-hidden"
+                                    shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:shadow-[0_8px_40px_rgba(0,170,255,0.2)] overflow-hidden"
                                 >
                                     {/* Cinematic edge glow on hover */}
                                     {hoveredProject === index && (
@@ -102,7 +102,7 @@ const Projects = () => {
                                             exit={{ opacity: 0 }}
                                             className="absolute inset-0 z-[5] pointer-events-none rounded-2xl"
                                             style={{
-                                                background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.1), transparent)',
+                                                background: 'linear-gradient(90deg, transparent, rgba(0,170,255,0.1), transparent)',
                                             }}
                                         />
                                     )}
@@ -157,7 +157,7 @@ const Projects = () => {
                                                 animate={{ scale: hoveredProject === index ? 1 : 0 }}
                                                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                                                 className="w-16 h-16 rounded-full border-2 border-white/30 flex items-center justify-center
-                                                    backdrop-blur-sm shadow-[0_0_40px_rgba(220,38,38,0.3)]"
+                                                    backdrop-blur-sm shadow-[0_0_40px_rgba(0,170,255,0.3)]"
                                             >
                                                 <FaPlay className="text-white/60 text-6xl ml-1" size={24} />
                                             </motion.div>
@@ -252,7 +252,7 @@ const Projects = () => {
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 text-white font-bold rounded-full
-                            shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transition-all"
+                            shadow-[0_0_30px_rgba(0,170,255,0.3)] hover:shadow-[0_0_50px_rgba(0,170,255,0.5)] transition-all"
                     >
                         <FaGithub size={18} />
                         View All on GitHub
@@ -264,3 +264,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

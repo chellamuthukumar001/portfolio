@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { FaLaptopCode, FaMicrochip, FaNetworkWired, FaRocket } from "react-icons/fa";
 import profileImg from "../assets/profile.png";
 import { SectionTransition } from "./SectionTransition";
 
-// ── Lightweight CSS-only tilt card (no JS tracking) ──────────────────────────
+// â”€â”€ Lightweight CSS-only tilt card (no JS tracking) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const TiltCard = ({ children, className = "" }) => (
     <div
         className={`tilt-hover-card ${className}`}
@@ -28,11 +28,11 @@ const About = () => {
                     transition={{ duration: 0.6 }}
                     className="mb-16 text-center md:text-left"
                 >
-                    <p className="text-[10px] font-mono text-red-500/60 uppercase tracking-[0.45em] mb-5">// 01 — About</p>
+                    <p className="text-[10px] font-mono text-red-500/60 uppercase tracking-[0.45em] mb-5">// 01 â€” About</p>
 
                     <h2 className="text-5xl md:text-7xl font-orbitron font-bold text-white mb-6 tracking-tight leading-none">
                         About<br />
-                        <span style={{ WebkitTextStroke: "2px rgba(220,38,38,0.55)", color: "transparent" }}>
+                        <span style={{ WebkitTextStroke: "2px rgba(0,170,255,0.55)", color: "transparent" }}>
                             Me.
                         </span>
                     </h2>
@@ -59,7 +59,7 @@ const About = () => {
                 <SectionTransition section="about">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
-                    {/* ── Profile Photo Card ── */}
+                    {/* â”€â”€ Profile Photo Card â”€â”€ */}
                     <div className="md:col-span-5 lg:col-span-4 h-full">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
@@ -85,28 +85,28 @@ const About = () => {
 
                             {/* Live building badge */}
                             <div className="absolute top-5 left-5 z-20 flex items-center gap-2 bg-black/75 border border-red-500/30 rounded-full px-3 py-1.5 backdrop-blur-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_rgba(220,38,38,0.9)] animate-pulse" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_rgba(0,170,255,0.9)] animate-pulse" />
                                 <span className="text-[9px] font-mono text-white/55 uppercase tracking-widest">Currently building</span>
                             </div>
 
                             {/* Corner badge */}
                             <div className="absolute top-5 right-5 z-20 border border-white/15 rounded-lg px-3 py-1.5 bg-black/60 backdrop-blur-sm">
-                                <span className="text-[10px] font-mono text-white/45 uppercase tracking-widest">CSE · 2023</span>
+                                <span className="text-[10px] font-mono text-white/45 uppercase tracking-widest">CSE Â· 2023</span>
                             </div>
 
                             {/* Name overlay */}
                             <div className="absolute bottom-8 left-8 z-20">
                                 <div className="w-10 h-[2px] bg-red-500 mb-3" />
                                 <h3 className="text-2xl font-orbitron font-bold text-white mb-1">Chella Muthu Kumar</h3>
-                                <p className="text-white/40 font-mono text-xs tracking-widest uppercase">Developer · Designer</p>
+                                <p className="text-white/40 font-mono text-xs tracking-widest uppercase">Developer Â· Designer</p>
                             </div>
                         </motion.div>
                     </div>
 
-                    {/* ── Bento Grid ── */}
+                    {/* â”€â”€ Bento Grid â”€â”€ */}
                     <div className="md:col-span-7 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                        {/* Card 1 — Web Dev */}
+                        {/* Card 1 â€” Web Dev */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.5 }}
@@ -142,7 +142,7 @@ const About = () => {
                             </div>
                         </motion.div>
 
-                        {/* Card 2 — AI Automation */}
+                        {/* Card 2 â€” AI Automation */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -162,12 +162,12 @@ const About = () => {
                                     Leveraging AI tools to build intelligent workflows and automate complex tasks at scale.
                                 </p>
                                 <p className="absolute bottom-4 right-5 text-[10px] font-mono text-white/15 uppercase tracking-widest">
-                                    LLM · Agents
+                                    LLM Â· Agents
                                 </p>
                             </div>
                         </motion.div>
 
-                        {/* Card 3 — UI/UX */}
+                        {/* Card 3 â€” UI/UX */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -177,7 +177,7 @@ const About = () => {
                             <div className="h-full p-6 rounded-3xl border border-white/8 bg-white/[0.02]
                                 hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300
                                 group relative overflow-hidden">
-                                {/* Dotted texture — moved to pseudo-element via CSS */}
+                                {/* Dotted texture â€” moved to pseudo-element via CSS */}
                                 <div
                                     className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-3xl"
                                     style={{
@@ -194,12 +194,12 @@ const About = () => {
                                     Designing beautiful, user-centric interfaces with a focus on usability and visual hierarchy.
                                 </p>
                                 <p className="absolute bottom-4 right-5 text-[10px] font-mono text-white/15 uppercase tracking-widest">
-                                    Figma · Motion
+                                    Figma Â· Motion
                                 </p>
                             </div>
                         </motion.div>
 
-                        {/* Card 4 — Learner banner */}
+                        {/* Card 4 â€” Learner banner */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -224,7 +224,7 @@ const About = () => {
 
                                 <div className="shrink-0 w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center
                                     group-hover:bg-red-600 group-hover:border-red-500 group-hover:scale-110
-                                    transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.08)] ml-6">
+                                    transition-all duration-300 shadow-[0_0_20px_rgba(0,170,255,0.08)] ml-6">
                                     <FaRocket className="text-xl text-red-400 group-hover:text-white transition-colors" />
                                 </div>
                             </div>
@@ -239,3 +239,4 @@ const About = () => {
 };
 
 export default About;
+

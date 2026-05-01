@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { FaBriefcase, FaProjectDiagram, FaMicrochip, FaStar } from 'react-icons/fa';
 
@@ -44,13 +44,13 @@ const StatsSection = () => {
         <section className="relative w-full py-20 overflow-hidden">
             {/* Top / bottom borders */}
             <div className="absolute top-0 left-0 right-0 h-px"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)' }} />
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,170,255,0.4), transparent)' }} />
             <div className="absolute bottom-0 left-0 right-0 h-px"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.4), transparent)' }} />
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,170,255,0.4), transparent)' }} />
 
             {/* Faint horizontal glow band */}
             <div className="absolute inset-0 pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,38,38,0.05) 0%, transparent 70%)' }} />
+                style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,170,255,0.05) 0%, transparent 70%)' }} />
 
             <div className="relative max-w-6xl mx-auto px-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
@@ -75,7 +75,7 @@ const StatsSection = () => {
                                 <div
                                     className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border border-red-500/20 bg-red-500/5
                                         group-hover:border-red-500/50 group-hover:bg-red-500/10 group-hover:scale-110
-                                        group-hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all duration-300"
+                                        group-hover:shadow-[0_0_20px_rgba(0,170,255,0.2)] transition-all duration-300"
                                 >
                                     <Icon className="text-lg" style={{ color: stat.color }} />
                                 </div>
@@ -83,7 +83,7 @@ const StatsSection = () => {
                                 {/* Counter */}
                                 <h3 className="text-5xl md:text-6xl font-orbitron font-black text-white mb-2
                                     group-hover:text-red-400 transition-colors duration-300"
-                                    style={{ textShadow: '0 0 40px rgba(220,38,38,0)' }}
+                                    style={{ textShadow: '0 0 40px rgba(0,170,255,0)' }}
                                 >
                                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                                 </h3>
@@ -115,7 +115,7 @@ const StatsSection = () => {
                     transition={{ delay: 0.6 }}
                     className="text-center text-white/15 text-[10px] font-mono tracking-[0.3em] uppercase mt-4"
                 >
-                    // Continuously growing · 2025
+                    // Continuously growing Â· 2025
                 </motion.p>
             </div>
         </section>
@@ -123,3 +123,4 @@ const StatsSection = () => {
 };
 
 export default StatsSection;
+

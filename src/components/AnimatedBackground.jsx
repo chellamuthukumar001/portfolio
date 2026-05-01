@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 
 const AnimatedBackground = () => {
     const canvasRef = useRef(null);
@@ -24,7 +24,7 @@ const AnimatedBackground = () => {
         };
         window.addEventListener('resize', onResize);
 
-        // ── Particles — reduced to 60 ──────────────────────────────────────────
+        // â”€â”€ Particles â€” reduced to 60 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const NUM = 60;
         const particles = Array.from({ length: NUM }, () => {
             const isRed = Math.random() < 0.35;
@@ -45,7 +45,7 @@ const AnimatedBackground = () => {
         const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
         let tick = 0;
 
-        // Pre-cache vignette gradient — only recreate on resize
+        // Pre-cache vignette gradient â€” only recreate on resize
         let vignetteCache = null;
         const getVignette = () => {
             if (!vignetteCache) {
@@ -56,17 +56,17 @@ const AnimatedBackground = () => {
             return vignetteCache;
         };
 
-        // Pre-cache scan line — recreate each frame is cheap (linear only)
+        // Pre-cache scan line â€” recreate each frame is cheap (linear only)
         const SCAN_SPEED = 0.3;
 
-        // Grid color strings — pre-built to avoid string allocation each frame
-        const GRID_COLOR_V = 'rgba(220,38,38,0.022)';
-        const GRID_COLOR_H = 'rgba(220,38,38,0.016)';
+        // Grid color strings â€” pre-built to avoid string allocation each frame
+        const GRID_COLOR_V = 'rgba(0,170,255,0.022)';
+        const GRID_COLOR_H = 'rgba(0,170,255,0.016)';
 
         const draw = () => {
             ctx.clearRect(0, 0, W, H);
 
-            // ── Scrolling grid (static color — no per-line sin()) ────────────
+            // â”€â”€ Scrolling grid (static color â€” no per-line sin()) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             ctx.lineWidth = 0.5;
             const offset = (tick * 0.12) % GRID;
 
@@ -84,7 +84,7 @@ const AnimatedBackground = () => {
             }
             ctx.stroke();
 
-            // ── Particles ─────────────────────────────────────────────────────
+            // â”€â”€ Particles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             for (let i = 0; i < NUM; i++) {
                 const p = particles[i];
                 p.x += p.dx;
@@ -94,21 +94,21 @@ const AnimatedBackground = () => {
                 if (p.y < 0) p.y = H;
                 if (p.y > H) p.y = 0;
 
-                // Pulsing alpha — use stored offset per particle (avoid tick*0.025+x*0.01 per frame)
+                // Pulsing alpha â€” use stored offset per particle (avoid tick*0.025+x*0.01 per frame)
                 p.alpha = 0.10 + 0.08 * Math.sin(tick * 0.022 + p.alphaOffset);
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                 ctx.fillStyle = p.isRed
-                    ? `rgba(220,38,38,${p.alpha.toFixed(2)})`
+                    ? `rgba(0,170,255,${p.alpha.toFixed(2)})`
                     : `rgba(255,255,255,${(p.alpha * 0.4).toFixed(2)})`;
                 ctx.fill();
             }
 
-            // ── Connect nearby particles — O(n*12) instead of O(n²) ──────────
+            // â”€â”€ Connect nearby particles â€” O(n*12) instead of O(nÂ²) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             ctx.lineWidth = 0.45;
             for (let i = 0; i < NUM; i++) {
-                // Only check the next 15 particles (sliding window) to avoid full O(n²)
+                // Only check the next 15 particles (sliding window) to avoid full O(nÂ²)
                 const limit = Math.min(i + 15, NUM);
                 for (let j = i + 1; j < limit; j++) {
                     const dx   = particles[i].x - particles[j].x;
@@ -122,27 +122,27 @@ const AnimatedBackground = () => {
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.strokeStyle = bothRed
-                            ? `rgba(220,38,38,${(alpha * 1.3).toFixed(3)})`
+                            ? `rgba(0,170,255,${(alpha * 1.3).toFixed(3)})`
                             : `rgba(200,200,200,${(alpha * 0.45).toFixed(3)})`;
                         ctx.stroke();
                     }
                 }
             }
 
-            // ── Radial vignette (cached) ──────────────────────────────────────
+            // â”€â”€ Radial vignette (cached) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             ctx.fillStyle = getVignette();
             ctx.fillRect(0, 0, W, H);
 
-            // ── Slow scan line ────────────────────────────────────────────────
+            // â”€â”€ Slow scan line â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             const scanY = (tick * SCAN_SPEED) % H;
             const scanGrad = ctx.createLinearGradient(0, scanY - 40, 0, scanY + 40);
-            scanGrad.addColorStop(0,   'rgba(220,38,38,0)');
-            scanGrad.addColorStop(0.5, 'rgba(220,38,38,0.028)');
-            scanGrad.addColorStop(1,   'rgba(220,38,38,0)');
+            scanGrad.addColorStop(0,   'rgba(0,170,255,0)');
+            scanGrad.addColorStop(0.5, 'rgba(0,170,255,0.028)');
+            scanGrad.addColorStop(1,   'rgba(0,170,255,0)');
             ctx.fillStyle = scanGrad;
             ctx.fillRect(0, scanY - 40, W, 80);
 
-            // ── Central warm glow — only every 2 frames ───────────────────────
+            // â”€â”€ Central warm glow â€” only every 2 frames â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             if (tick % 2 === 0) {
                 const glowAlpha = 0.035 + 0.015 * Math.sin(tick * 0.012);
                 const centerGlow = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, W * 0.4);
@@ -175,3 +175,4 @@ const AnimatedBackground = () => {
 };
 
 export default AnimatedBackground;
+

@@ -13,7 +13,7 @@ const Contact = lazy(() => import('../components/Contact'));
 const Services = lazy(() => import('../components/Services'));
 const Certifications = lazy(() => import('../components/Certifications'));
 
-// ─── Unique background per section (deeper red-black tints) ──────────────────
+// â”€â”€â”€ Unique background per section (deeper red-black tints) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const SECTION_BG = {
     hero: { color: '#000000', label: 'Home' },
     stats: { color: '#0a0000', label: 'Stats' },
@@ -26,63 +26,63 @@ const SECTION_BG = {
     contact: { color: '#000000', label: 'Contact' },
 };
 
-// ─── Section patterns (more visible red-tinted) ───────────────────────────────
+// â”€â”€â”€ Section patterns (more visible red-tinted) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const PATTERNS = {
     hero: null,
     stats: null,
     about: {
-        backgroundImage: 'linear-gradient(rgba(220,38,38,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.07) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(0,170,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,170,255,0.07) 1px, transparent 1px)',
         backgroundSize: '72px 72px',
     },
     services: {
-        backgroundImage: 'repeating-linear-gradient(45deg, rgba(220,38,38,0.055) 0, rgba(220,38,38,0.055) 1px, transparent 0, transparent 50%)',
+        backgroundImage: 'repeating-linear-gradient(45deg, rgba(0,170,255,0.055) 0, rgba(0,170,255,0.055) 1px, transparent 0, transparent 50%)',
         backgroundSize: '24px 24px',
     },
     skills: {
-        backgroundImage: 'radial-gradient(rgba(220,38,38,0.10) 1px, transparent 1px)',
+        backgroundImage: 'radial-gradient(rgba(0,170,255,0.10) 1px, transparent 1px)',
         backgroundSize: '32px 32px',
     },
     certifications: {
-        backgroundImage: 'linear-gradient(rgba(220,38,38,0.065) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.065) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(0,170,255,0.065) 1px, transparent 1px), linear-gradient(90deg, rgba(0,170,255,0.065) 1px, transparent 1px)',
         backgroundSize: '48px 48px',
     },
     projects: {
-        backgroundImage: 'repeating-linear-gradient(-45deg, rgba(220,38,38,0.05) 0, rgba(220,38,38,0.05) 1px, transparent 0, transparent 50%)',
+        backgroundImage: 'repeating-linear-gradient(-45deg, rgba(0,170,255,0.05) 0, rgba(0,170,255,0.05) 1px, transparent 0, transparent 50%)',
         backgroundSize: '28px 28px',
     },
     education: {
-        backgroundImage: 'radial-gradient(rgba(220,38,38,0.09) 1px, transparent 1px)',
+        backgroundImage: 'radial-gradient(rgba(0,170,255,0.09) 1px, transparent 1px)',
         backgroundSize: '24px 24px',
     },
     contact: {
-        backgroundImage: 'linear-gradient(rgba(220,38,38,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.07) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(0,170,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,170,255,0.07) 1px, transparent 1px)',
         backgroundSize: '60px 60px',
     },
 };
 
-// ─── Section radial glows — stronger, more vivid ─────────────────────────────
+// â”€â”€â”€ Section radial glows â€” stronger, more vivid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const GLOWS = {
-    hero: 'radial-gradient(ellipse 70% 60% at 50% 35%, rgba(220,38,38,0.13) 0%, transparent 70%)',
-    stats: 'radial-gradient(ellipse 80% 40% at 50% 50%, rgba(220,38,38,0.06) 0%, transparent 70%)',
-    about: 'radial-gradient(ellipse 55% 65% at 80% 50%, rgba(220,38,38,0.10) 0%, transparent 70%)',
+    hero: 'radial-gradient(ellipse 70% 60% at 50% 35%, rgba(0,170,255,0.13) 0%, transparent 70%)',
+    stats: 'radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,170,255,0.06) 0%, transparent 70%)',
+    about: 'radial-gradient(ellipse 55% 65% at 80% 50%, rgba(0,170,255,0.10) 0%, transparent 70%)',
     services: 'radial-gradient(ellipse 45% 50% at 10% 80%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    skills: 'radial-gradient(ellipse 65% 55% at 50% 20%, rgba(220,38,38,0.12) 0%, transparent 70%)',
+    skills: 'radial-gradient(ellipse 65% 55% at 50% 20%, rgba(0,170,255,0.12) 0%, transparent 70%)',
     certifications: 'radial-gradient(ellipse 55% 45% at 90% 30%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    projects: 'radial-gradient(ellipse 45% 65% at 20% 60%, rgba(220,38,38,0.10) 0%, transparent 70%)',
+    projects: 'radial-gradient(ellipse 45% 65% at 20% 60%, rgba(0,170,255,0.10) 0%, transparent 70%)',
     education: 'radial-gradient(ellipse 55% 45% at 70% 70%, rgba(185,28,28,0.10) 0%, transparent 70%)',
-    contact: 'radial-gradient(ellipse 65% 55% at 50% 80%, rgba(220,38,38,0.12) 0%, transparent 70%)',
+    contact: 'radial-gradient(ellipse 65% 55% at 50% 80%, rgba(0,170,255,0.12) 0%, transparent 70%)',
 };
 
 const ORDER = ['hero', 'stats', 'about', 'services', 'skills', 'certifications', 'projects', 'education', 'contact'];
 
-// ─── Loading fallback ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Loading fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const SectionFallback = () => (
     <div className="w-full min-h-[300px] flex items-center justify-center">
         <div className="w-8 h-8 border-t-2 border-red-500/50 rounded-full animate-spin" />
     </div>
 );
 
-// ─── Individual scroll-detect section ────────────────────────────────────────
+// â”€â”€â”€ Individual scroll-detect section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Section({ id, onEnter, children }) {
     const ref = useRef(null);
 
@@ -101,28 +101,28 @@ function Section({ id, onEnter, children }) {
 
     return (
         <div ref={ref} id={id} className="relative w-full">
-            {/* Top hairline separator — red-tinted */}
+            {/* Top hairline separator â€” red-tinted */}
             <div className="absolute top-0 left-0 right-0 h-px z-20 pointer-events-none"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(220,38,38,0.25), rgba(255,255,255,0.06), rgba(220,38,38,0.25), transparent)' }} />
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(0,170,255,0.25), rgba(255,255,255,0.06), rgba(0,170,255,0.25), transparent)' }} />
             {children}
         </div>
     );
 }
 
-// ─── Fixed full-screen background ────────────────────────────────────────────
+// â”€â”€â”€ Fixed full-screen background â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SiteBackground({ activeSection }) {
     return (
         <>
-            {/* Base color layer */}
+            {/* Base color layer - made transparent to show ParticleBackground */}
             <div
                 className="fixed inset-0 z-[-10] pointer-events-none"
                 style={{
-                    backgroundColor: SECTION_BG[activeSection]?.color ?? '#000000',
+                    backgroundColor: 'transparent',
                     transition: 'background-color 0.7s ease',
                 }}
             />
 
-            {/* Pattern layer — simple CSS transition, no AnimatePresence */}
+            {/* Pattern layer â€” simple CSS transition, no AnimatePresence */}
             {PATTERNS[activeSection] && (
                 <div
                     key={`pattern-${activeSection}`}
@@ -146,7 +146,7 @@ function SiteBackground({ activeSection }) {
     );
 }
 
-// ─── Section indicator dots (right side) ─────────────────────────────────────
+// â”€â”€â”€ Section indicator dots (right side) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SectionDots({ activeSection }) {
     const { navigateTo } = useNavTransition();
 
@@ -183,7 +183,7 @@ function SectionDots({ activeSection }) {
                                     : 'w-1.5 h-1.5 bg-white/15 group-hover:bg-red-500/40 group-hover:scale-125'
                                 }`}
                             style={isActive ? {
-                                boxShadow: '0 0 10px rgba(220,38,38,1), 0 0 20px rgba(220,38,38,0.5)',
+                                boxShadow: '0 0 10px rgba(0,170,255,1), 0 0 20px rgba(0,170,255,0.5)',
                             } : {}}
                         />
                     </button>
@@ -193,7 +193,7 @@ function SectionDots({ activeSection }) {
     );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const HomePage = ({ onReset }) => {
     const [activeSection, setActiveSection] = useState('hero');
     const scrollBarRef = useRef(null);
@@ -202,7 +202,7 @@ const HomePage = ({ onReset }) => {
         setActiveSection(id);
     }, []);
 
-    // Scroll progress — direct DOM mutation avoids React re-renders on every scroll
+    // Scroll progress â€” direct DOM mutation avoids React re-renders on every scroll
     useEffect(() => {
         const bar = scrollBarRef.current;
         if (!bar) return;
@@ -218,7 +218,7 @@ const HomePage = ({ onReset }) => {
 
     return (
         <>
-            {/* ── Top scroll progress bar — direct DOM, no React re-renders ── */}
+            {/* â”€â”€ Top scroll progress bar â€” direct DOM, no React re-renders â”€â”€ */}
             <div className="fixed top-0 left-0 right-0 h-[2px] z-[100] pointer-events-none"
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
                 <div
@@ -226,15 +226,12 @@ const HomePage = ({ onReset }) => {
                     style={{
                         height: '100%',
                         width: '0%',
-                        background: 'linear-gradient(90deg, #dc2626, #ef4444, #f87171)',
-                        boxShadow: '0 0 8px rgba(220,38,38,0.8)',
+                        background: 'linear-gradient(90deg, #0088ff, #00aaff, #67e8f9)',
+                        boxShadow: '0 0 8px rgba(0,170,255,0.8)',
                         willChange: 'width',
                     }}
                 />
             </div>
-
-            {/* Animated canvas background — always visible */}
-            <AnimatedBackground />
 
             {/* Fixed color transition layer on top of canvas */}
             <SiteBackground activeSection={activeSection} />
@@ -316,3 +313,4 @@ const HomePage = ({ onReset }) => {
 };
 
 export default HomePage;
+

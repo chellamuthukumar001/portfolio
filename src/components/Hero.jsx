@@ -48,7 +48,7 @@ const Hero = ({ onReset }) => {
             <div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
-                    background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(220,38,38,0.12) 0%, rgba(0,0,0,0) 70%)',
+                    background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,170,255,0.12) 0%, rgba(0,0,0,0) 70%)',
                 }}
             />
 
@@ -90,7 +90,7 @@ const Hero = ({ onReset }) => {
                     transition={{ delay: 0.15, duration: 0.4 }}
                     className="inline-flex items-center gap-2.5 border border-red-500/40 bg-red-500/5 rounded-full px-5 py-2 mb-10"
                 >
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(0,170,255,0.8)]" />
                     <span className="text-white/60 text-xs font-mono tracking-[0.22em] uppercase">
                         Available for hire · 2025
                     </span>
@@ -127,9 +127,9 @@ const Hero = ({ onReset }) => {
                         <span
                             className="block mt-1"
                             style={{
-                                WebkitTextStroke: "2px rgba(220,38,38,0.7)",
+                                WebkitTextStroke: "2px rgba(0,170,255,0.7)",
                                 color: "transparent",
-                                textShadow: "0 0 60px rgba(220,38,38,0.2)",
+                                textShadow: "0 0 60px rgba(0,170,255,0.2)",
                             }}
                         >
                             {heroData.name.split(" ").slice(2).join(" ")}
@@ -177,9 +177,9 @@ const Hero = ({ onReset }) => {
                 >
                     <motion.a
                         href="#projects"
-                        whileHover={{ scale: 1.05, boxShadow: "0 0 45px rgba(220,38,38,0.55)" }}
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 45px rgba(0,170,255,0.55)" }}
                         whileTap={{ scale: 0.97 }}
-                        className="group flex items-center gap-3 px-8 py-3.5 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-full shadow-[0_0_25px_rgba(220,38,38,0.35)] transition-colors duration-200"
+                        className="group flex items-center gap-3 px-8 py-3.5 bg-red-600 hover:bg-red-500 text-white font-bold text-sm rounded-full shadow-[0_0_25px_rgba(0,170,255,0.35)] transition-colors duration-200"
                     >
                         Explore Projects
                         <FaArrowRight className="group-hover:translate-x-1 transition-transform" />

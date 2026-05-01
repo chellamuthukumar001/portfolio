@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { certifications } from "../constants";
 import { FaExternalLinkAlt, FaAward, FaShieldAlt } from "react-icons/fa";
 
@@ -33,7 +33,7 @@ const Certifications = () => {
                     </div>
                     <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-white mb-4 tracking-tight">
                         Certs &amp;{" "}
-                        <span style={{ WebkitTextStroke: "1px rgba(220,38,38,0.3)", color: "transparent" }}>
+                        <span style={{ WebkitTextStroke: "1px rgba(0,170,255,0.3)", color: "transparent" }}>
                             Awards
                         </span>
                     </h2>
@@ -106,3 +106,4 @@ const Certifications = () => {
 };
 
 export default Certifications;
+

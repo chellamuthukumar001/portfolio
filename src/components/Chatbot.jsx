@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { FaBrain, FaTimes, FaPaperPlane, FaRobot, FaBolt, FaCode, FaEnvelope, FaMicrophone, FaTerminal, FaShieldAlt, FaArrowsAlt } from 'react-icons/fa';
 
@@ -279,7 +279,7 @@ const Chatbot = () => {
 
                     <motion.button
                         onClick={() => setIsOpen(!isOpen)}
-                        whileHover={{ scale: 1.15, boxShadow: "0 0 40px rgba(220,38,38,0.5)" }}
+                        whileHover={{ scale: 1.15, boxShadow: "0 0 40px rgba(0,170,255,0.5)" }}
                         whileTap={{ scale: 0.9 }}
                         className={`w-18 h-18 rounded-[1.8rem] flex items-center justify-center text-white shadow-2xl border transition-all duration-700 ${isOpen
                             ? 'bg-black border-red-500 text-red-500'
@@ -296,3 +296,4 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
+

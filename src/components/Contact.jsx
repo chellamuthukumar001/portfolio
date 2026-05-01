@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { socialLinks, contactInfo } from "../constants";
 import { FaPaperPlane, FaSpinner, FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import { useState, useRef } from "react";
@@ -55,7 +55,7 @@ const Contact = ({ compact = false }) => {
         `w-full bg-black/60 border rounded-xl px-4 py-3 text-white placeholder-white/20
         outline-none transition-all duration-200 font-light text-sm
         ${focused === field
-            ? "border-red-500/60 shadow-[0_0_0_1px_rgba(220,38,38,0.2)]"
+            ? "border-red-500/60 shadow-[0_0_0_1px_rgba(0,170,255,0.2)]"
             : "border-white/10 hover:border-red-500/30"
         }`;
 
@@ -101,7 +101,7 @@ const Contact = ({ compact = false }) => {
                     className="grid md:grid-cols-5 gap-0 border border-white/8 rounded-3xl overflow-hidden
                         shadow-[0_24px_64px_rgba(0,0,0,0.8)] bg-[#060606]"
                 >
-                    {/* ── Left Info Panel ── */}
+                    {/* â”€â”€ Left Info Panel â”€â”€ */}
                     <div className="md:col-span-2 p-8 border-b md:border-b-0 md:border-r border-white/8
                         bg-white/[0.02] flex flex-col justify-between gap-8">
 
@@ -172,7 +172,7 @@ const Contact = ({ compact = false }) => {
                         </div>
                     </div>
 
-                    {/* ── Right Form Panel ── */}
+                    {/* â”€â”€ Right Form Panel â”€â”€ */}
                     <div className="md:col-span-3 p-8">
                         <p className="text-[10px] font-mono text-white/20 uppercase tracking-[0.25em] mb-6">// Send a message</p>
 
@@ -228,7 +228,7 @@ const Contact = ({ compact = false }) => {
                                         ? "bg-green-500/10 border border-green-500/30 text-green-400"
                                         : status === "error"
                                             ? "bg-red-900/40 border border-red-500/50 text-red-100"
-                                            : "bg-red-600 hover:bg-red-500 text-white hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]"
+                                            : "bg-red-600 hover:bg-red-500 text-white hover:shadow-[0_0_30px_rgba(0,170,255,0.5)]"
                                     }
                                     disabled:cursor-not-allowed
                                 `}
@@ -252,3 +252,4 @@ const Contact = ({ compact = false }) => {
 };
 
 export default Contact;
+

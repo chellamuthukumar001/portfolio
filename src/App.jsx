@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import HomePage from "./pages/HomePage";
 import Chatbot from "./components/Chatbot";
+import ParticleBackground from "./components/ParticleBackground";
 import { NavTransitionProvider } from "./context/NavTransitionContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -19,9 +20,10 @@ const App = () => {
 
   return (
     <main
-      className="relative w-full min-h-screen text-white selection:bg-red-600 selection:text-white"
-      style={{ backgroundColor: '#000000' }}
+      className="relative w-full min-h-screen text-white selection:bg-red-600 selection:text-white bg-black"
     >
+      {/* Global particle background — fixed, always visible on all pages */}
+      <ParticleBackground />
       <ErrorBoundary>
         <AnimatePresence mode="wait">
           {showLanding && (

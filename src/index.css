@@ -7,7 +7,7 @@
   --font-orbitron: "Orbitron", sans-serif;
   --font-sora: "Sora", sans-serif;
 
-  /* Red-Black Theme */
+  /* Blue-Cyan Theme overriding Red */
   --color-indigo-50: #fafafa;
   --color-indigo-100: #f5f5f5;
   --color-indigo-200: #e5e5e5;
@@ -20,16 +20,29 @@
   --color-indigo-900: #171717;
   --color-indigo-950: #0a0a0a;
 
-  --color-violet-50: #fff1f2;
-  --color-violet-400: #f87171;
-  --color-violet-500: #ef4444;
-  --color-violet-600: #dc2626;
+  /* Map standard reds to cyan/blue to match the particle effect */
+  --color-red-50: #ecfeff;
+  --color-red-100: #cffafe;
+  --color-red-200: #a5f3fc;
+  --color-red-300: #67e8f9;
+  --color-red-400: #00aaff;
+  --color-red-500: #0088ff;
+  --color-red-600: #0066cc;
+  --color-red-700: #004499;
+  --color-red-800: #002266;
+  --color-red-900: #001133;
+  --color-red-950: #000a1a;
 
-  --color-blue-400: #f87171;
-  --color-blue-500: #ef4444;
+  --color-violet-50: #ecfeff;
+  --color-violet-400: #00aaff;
+  --color-violet-500: #0088ff;
+  --color-violet-600: #0066cc;
 
-  --color-purple-500: #dc2626;
-  --color-purple-600: #b91c1c;
+  --color-blue-400: #00aaff;
+  --color-blue-500: #0088ff;
+
+  --color-purple-500: #0066cc;
+  --color-purple-600: #004499;
 
   --color-slate-100: #f5f5f5;
   --color-slate-200: #e5e5e5;
@@ -43,13 +56,13 @@
 
   /* Custom Theme Constants */
   --color-bg-dark: #000000;
-  --color-bg-card: #0d0000;
-  --color-primary: #ef4444;
-  --color-accent: #dc2626;
-  --color-secondary: #1a0000;
+  --color-bg-card: #00051a;
+  --color-primary: #00aaff;
+  --color-accent: #0088ff;
+  --color-secondary: #000a1a;
 
-  --background-image-gradient-primary: linear-gradient(to right, #ef4444, #dc2626, #991b1b);
-  --shadow-glow-primary: 0 0 20px rgba(239, 68, 68, 0.3);
+  --background-image-gradient-primary: linear-gradient(to right, #00aaff, #0088ff, #002266);
+  --shadow-glow-primary: 0 0 20px rgba(0, 170, 255, 0.3);
 }
 
 @layer base {
@@ -62,32 +75,53 @@
   --bg-color: #000000;
   --text-primary: #ffffff;
   --text-secondary: #a3a3a3;
-  --accent: #ef4444;
-  --accent-dim: #dc2626;
-  --accent-glow: rgba(239, 68, 68, 0.25);
+  --accent: #00aaff;
+  --accent-dim: #0088ff;
+  --accent-glow: rgba(0, 170, 255, 0.25);
 }
 
 body {
   @apply font-orbitron overflow-x-hidden;
   background-color: #000000 !important;
   color: white;
+  cursor: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── LOCK BACKGROUND BLACK EVERYWHERE ── */
-html,
-#root,
-main {
+html {
   background-color: #000000 !important;
 }
 
-/* Remove content-visibility that was interfering */
-section {
-  background-color: inherit;
+#root,
+main {
+  background-color: #000000 !important;
+  min-height: 100vh;
 }
 
-/* Canvas element gets its own GPU layer */
+section {
+  background-color: transparent;
+}
+
+/* Canvas and animation GPU hints */
 canvas {
-  will-change: contents;
+  will-change: transform;
+}
+
+.particle-canvas-wrapper {
+  contain: strict;
+  will-change: auto;
+}
+
+/* Smooth scrolling with GPU */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Reduce paint areas */
+.fixed {
+  will-change: auto;
 }
 
 /* CSS-only card tilt hover — no JS needed */

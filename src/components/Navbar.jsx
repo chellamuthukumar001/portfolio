@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { navLinks } from "../constants";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
@@ -37,7 +37,7 @@ const Navbar = () => {
         return () => observers.forEach(o => o?.disconnect());
     }, []);
 
-    // ── Intercepted nav click — plays transition then scrolls ─────────────────
+    // â”€â”€ Intercepted nav click â€” plays transition then scrolls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleNavClick = (e, id) => {
         e.preventDefault();
         setToggle(false);
@@ -71,14 +71,14 @@ const Navbar = () => {
 
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
-                {/* ── Logo ─────────────────────────────────────── */}
+                {/* â”€â”€ Logo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 <button
                     onClick={(e) => handleNavClick(e, "home")}
                     className="group flex items-center gap-3"
                 >
                     <div className="w-9 h-9 border border-red-500/40 rounded-lg flex items-center justify-center
                         group-hover:bg-red-600 group-hover:border-red-500 transition-all duration-300
-                        shadow-[0_0_12px_rgba(220,38,38,0.1)] group-hover:shadow-[0_0_18px_rgba(220,38,38,0.4)]">
+                        shadow-[0_0_12px_rgba(0,170,255,0.1)] group-hover:shadow-[0_0_18px_rgba(0,170,255,0.4)]">
                         <span className="text-white/80 group-hover:text-white text-xs font-orbitron font-black transition-colors">
                             CM
                         </span>
@@ -93,7 +93,7 @@ const Navbar = () => {
                     </div>
                 </button>
 
-                {/* ── Desktop nav links (centered) ─────────────── */}
+                {/* â”€â”€ Desktop nav links (centered) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 <ul className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
                     {navLinks.map(({ id, title }) => (
                         <li key={id}>
@@ -118,14 +118,14 @@ const Navbar = () => {
                     ))}
                 </ul>
 
-                {/* ── Right side ───────────────────────────────── */}
+                {/* â”€â”€ Right side â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 <div className="flex items-center gap-3">
                     <motion.button
                         onClick={(e) => handleNavClick(e, "contact")}
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.96 }}
                         className="hidden md:flex items-center gap-2 px-5 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-full
-                            shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.55)] transition-all"
+                            shadow-[0_0_15px_rgba(0,170,255,0.3)] hover:shadow-[0_0_25px_rgba(0,170,255,0.55)] transition-all"
                     >
                         <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                         Hire Me
@@ -142,7 +142,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* ── Mobile menu ──────────────────────────────────── */}
+            {/* â”€â”€ Mobile menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <AnimatePresence>
                 {toggle && (
                     <motion.div
@@ -184,3 +184,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
